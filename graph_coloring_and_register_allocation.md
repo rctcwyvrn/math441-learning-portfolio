@@ -3,6 +3,7 @@ title: "Learning portfolio: Graph coloring and register allocation"
 author: Lily Lin
 geometry: margin=2cm
 output: pdf_document
+colorlinks: true
 ---
 
 While implementing a compiler for CPSC 411 last year we had to implement a register allocator, which is a real world usage of graph coloring that I encountered last year. It has some interesting computational properties and it's use of graph coloring is pretty interesting so I thought I could write about it for my learning portfolio. It turns out that for register allocation of real programs, the problem is so large that even a greedy approximation is too slow and an even faster algorithm is required!

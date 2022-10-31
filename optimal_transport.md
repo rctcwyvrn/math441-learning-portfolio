@@ -1,5 +1,10 @@
-# Learning Portfolio: Deeper dive into optimal transport
-
+---
+title: "Learning Portfolio: Deeper dive into optimal transport"
+author: Lily Lin
+geometry: margin=2cm
+output: pdf_document
+colorlinks: true
+---
 A quick google search indicates that optimal transport is more than just a linear programming problem about moving resources, and has many far reaching applications
 
 https://kantorovich.org/post/ot_intro/ 
