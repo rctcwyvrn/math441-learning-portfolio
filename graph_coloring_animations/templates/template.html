@@ -1,0 +1,21 @@
+<html>
+<head>
+  <meta name="viewport" content="width=device-width">
+</head>
+<body>
+  <form action="/new" method="post">
+    <label for="num_nodes">Number of nodes: </label>
+    <input type="text" id="num_nodes" name="n"><br><br>
+    <label for="num_edges">Number of edges:</label>
+    <input type="text" id="num_edges" name="m"><br><br>
+    <button type="submit"> New graph </button>
+  </form>
+  {% for name in STRATEGIES.keys() %}
+    <h1>{{ name }}</h1>
+    <video controls="" autoplay="" name="media">
+        <source src="{{ url_for('static', filename=name + '_animation.mp4') + '?u=' + hash(name + '_animation.mp4') }}" type="video/mp4">
+    </video>
+    <img src="{{ url_for('static', filename=name + '_final.png') + '?u=' + hash(name + '_final.png') }}"/>
+  {%endfor%}    
+</body>
+</html>
