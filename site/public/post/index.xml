@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Math 441 portfolio</title>
+    <link>http://rctcwyvrn.github.io/optimization_portfolio/post/</link>
+    <description>Recent content in Posts on Math 441 portfolio</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language><atom:link href="http://rctcwyvrn.github.io/optimization_portfolio/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Learning Portfolio: Deeper dive into optimal transport</title>
+      <link>http://rctcwyvrn.github.io/optimization_portfolio/post/optimal_transport/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://rctcwyvrn.github.io/optimization_portfolio/post/optimal_transport/</guid>
+      <description>A quick google search indicates that optimal transport is more than just a linear programming problem about moving resources, and has many far reaching applications
+https://kantorovich.org/post/ot_intro/
+This basic problem has a wealth of applications within mathematics (in the theory of partial differential equations, geometry, functional analysis, optimization, probability and so on) as well as in other fields (image processing, data science, economics, chemical physics etc.) and is currently an extremely active research area in both theory and applications.</description>
+    </item>
+    
+  </channel>
+</rss>

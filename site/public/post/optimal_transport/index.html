@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html
+  class="not-ready text-sm lg:text-base"
+  style="--bg: #faf6f1"
+  lang="en-us"
+>
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, shrink-to-fit=no"
+  />
+
+  
+  <title>Learning Portfolio: Deeper dive into optimal transport - Math 441 portfolio</title>
+
+  
+  <meta name="theme-color" />
+  
+  <meta name="description" content="A quick google search indicates that optimal transport is more than just a linear programming problem about moving resources, and has many far reaching applications
+https://kantorovich.org/post/ot_intro/
+This basic problem has a wealth of applications within mathematics (in the theory of partial differential equations, geometry, functional analysis, optimization, probability and so on) as well as in other fields (image processing, data science, economics, chemical physics etc.) and is currently an extremely active research area in both theory and applications." />
+  <meta
+    name="author"
+    content="Lily Lin"
+  />
+  
+
+  
+  
+  
+  
+  
+  
+  <link rel="preload stylesheet" as="style" href="http://rctcwyvrn.github.io/optimization_portfolio/main.min.css" />
+
+  
+  <script
+    defer
+    src="http://rctcwyvrn.github.io/optimization_portfolio/highlight.min.js"
+    onload="hljs.initHighlightingOnLoad();"
+  ></script>
+  
+
+  
+   
+  <link rel="preload" as="image" href="http://rctcwyvrn.github.io/optimization_portfolio/theme.png" />
+
+  
+  
+  
+  
+
+  
+
+  
+  <link rel="icon" href="http://rctcwyvrn.github.io/optimization_portfolio/favicon.ico" />
+  <link rel="apple-touch-icon" href="http://rctcwyvrn.github.io/optimization_portfolio/apple-touch-icon.png" />
+
+  
+  <meta name="generator" content="Hugo 0.107.0">
+
+  
+  
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <meta property="og:title" content="Learning Portfolio: Deeper dive into optimal transport" />
+<meta property="og:description" content="A quick google search indicates that optimal transport is more than just a linear programming problem about moving resources, and has many far reaching applications
+https://kantorovich.org/post/ot_intro/
+This basic problem has a wealth of applications within mathematics (in the theory of partial differential equations, geometry, functional analysis, optimization, probability and so on) as well as in other fields (image processing, data science, economics, chemical physics etc.) and is currently an extremely active research area in both theory and applications." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://rctcwyvrn.github.io/optimization_portfolio/post/optimal_transport/" /><meta property="article:section" content="post" />
+
+
+
+
+  
+  <meta itemprop="name" content="Learning Portfolio: Deeper dive into optimal transport">
+<meta itemprop="description" content="A quick google search indicates that optimal transport is more than just a linear programming problem about moving resources, and has many far reaching applications
+https://kantorovich.org/post/ot_intro/
+This basic problem has a wealth of applications within mathematics (in the theory of partial differential equations, geometry, functional analysis, optimization, probability and so on) as well as in other fields (image processing, data science, economics, chemical physics etc.) and is currently an extremely active research area in both theory and applications.">
+
+<meta itemprop="wordCount" content="1573">
+<meta itemprop="keywords" content="" />
+  
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Learning Portfolio: Deeper dive into optimal transport"/>
+<meta name="twitter:description" content="A quick google search indicates that optimal transport is more than just a linear programming problem about moving resources, and has many far reaching applications
+https://kantorovich.org/post/ot_intro/
+This basic problem has a wealth of applications within mathematics (in the theory of partial differential equations, geometry, functional analysis, optimization, probability and so on) as well as in other fields (image processing, data science, economics, chemical physics etc.) and is currently an extremely active research area in both theory and applications."/>
+
+  
+  
+</head>
+
+  <body class="text-black duration-200 ease-out dark:text-white">
+    <header class="mx-auto flex h-[5rem] max-w-3xl px-8 lg:justify-center">
+  <div class="relative z-50 mr-auto flex items-center">
+    <a
+      class="-translate-x-[1px] -translate-y-0.5 text-3xl font-bold"
+      href="http://rctcwyvrn.github.io/optimization_portfolio"
+      >Math 441 portfolio</a
+    >
+    <a
+      class="btn-dark ml-6 h-6 w-6 shrink-0 cursor-pointer [background:url(./theme.png)_left_center/_auto_theme('spacing.6')_no-repeat] [transition:_background-position_0.4s_steps(5)] dark:[background-position:right]"
+    ></a>
+  </div>
+
+  <a
+    class="btn-menu relative z-50 -mr-8 flex h-[5rem] w-[5rem] shrink-0 cursor-pointer flex-col items-center justify-center gap-2.5 lg:hidden"
+  ></a>
+
+  
+  <script>
+    
+    const htmlClass = document.documentElement.classList;
+    setTimeout(() => {
+      htmlClass.remove('not-ready');
+    }, 10);
+
+    
+    const btnMenu = document.querySelector('.btn-menu');
+    btnMenu.addEventListener('click', () => {
+      htmlClass.toggle('open');
+    });
+
+    
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const lightBg = `"#faf6f1"`.replace(/"/g, '');
+    const setDark = (isDark) => {
+      metaTheme.setAttribute('content', isDark ? '#000' : lightBg);
+      htmlClass[isDark ? 'add' : 'remove']('dark');
+      localStorage.setItem('dark', isDark);
+    };
+
+    
+    const darkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    if (htmlClass.contains('dark')) {
+      setDark(true);
+    } else {
+      const darkVal = localStorage.getItem('dark');
+      setDark(darkVal ? darkVal === 'true' : darkScheme.matches);
+    }
+
+    
+    darkScheme.addEventListener('change', (event) => {
+      setDark(event.matches);
+    });
+
+    
+    const btnDark = document.querySelector('.btn-dark');
+    btnDark.addEventListener('click', () => {
+      setDark(localStorage.getItem('dark') !== 'true');
+    });
+  </script>
+
+  <div
+    class="nav-wrapper fixed inset-x-0 top-full z-40 flex h-full select-none flex-col justify-center pb-16 duration-200 dark:bg-black lg:static lg:h-auto lg:flex-row lg:!bg-transparent lg:pb-0 lg:transition-none"
+  >
+    
+    
+
+    
+  </div>
+</header>
+
+
+    <main
+      class="prose prose-neutral relative mx-auto min-h-[calc(100%-10rem)] max-w-3xl px-8 pt-20 pb-32 dark:prose-invert"
+    >
+      
+
+<article>
+  <header class="mb-20">
+    <h1 class="!my-0 pb-2.5">Learning Portfolio: Deeper dive into optimal transport</h1>
+
+    
+    <div class="text-sm opacity-60">
+      
+      
+      <span class="mx-1">&middot;</span>
+      <span>Lily Lin</span>
+      
+    </div>
+    
+  </header>
+
+  <section><p>A quick google search indicates that optimal transport is more than just a linear programming problem about moving resources, and has many far reaching applications</p>
+<p><a href="https://kantorovich.org/post/ot_intro/">https://kantorovich.org/post/ot_intro/</a></p>
+<pre tabindex="0"><code>This basic problem has a wealth of applications within mathematics (in the theory of partial differential equations, geometry, functional analysis, optimization, probability and so on) as well as in other fields (image processing, data science, economics, chemical physics etc.) and is currently an extremely active research area in both theory and applications.
+
+The Kanotorovich Initiative is dedicated towards research and dissemination of modern OT mathematics towards a wide audience of researchers, students, industry, policy makers and the general public.
+</code></pre><p><strong>What is so special about optimal transport?</strong></p>
+<p>Questions</p>
+<ul>
+<li>Why is this specific case of network flows so valued for study?</li>
+<li>What makes optimal transport so widely applicable?</li>
+<li>What are some unique problems that can be solved by optimal transport? We saw image recognition in class but what else can be done?</li>
+<li>What methods are there to solve optimal transport besides linear programming?</li>
+</ul>
+<h1 id="what-makes-optimal-transport-special">What makes optimal transport special?</h1>
+<p>The key insight that seems to make OT special is the idea of moving probability distributions</p>
+<ol>
+<li>Many many many things can be modelled as a probability distribution over a space</li>
+<li>OT can be used to solve how one probability distribution can optimally be &ldquo;transformed&rdquo; into another space</li>
+</ol>
+<p>The way OT provides it&rsquo;s solution gives a number of other applications as well</p>
+<ol start="3">
+<li>It can say how &ldquo;hard&rdquo; it is to move one distribution to another, giving the ability to compare the &ldquo;similarity&rdquo; of probability distributions</li>
+<li>It gives a continuous set of &ldquo;inbetween&rdquo; distributions, essentially interpolating the two distributions by moving the points in their optimal direction but not all the way</li>
+</ol>
+<p>So from what I&rsquo;ve read, it&rsquo;s these 4 benefits of OT that make it such a fruitful area of research. Point 1 makes it extremely flexible and applicable. Point 3 and 4 allow you to mathematically compute interesting things about probability distributions that you can&rsquo;t (or can you, I don&rsquo;t know) by other methods</p>
+<p>There&rsquo;s also an additional point that I think applies</p>
+<ol start="5">
+<li>It can be formulated as a linear programming problem, which has many highly optimized solvers like <code>linprog</code> or <code>pulp</code></li>
+</ol>
+<h1 id="what-are-some-stuff-optimal-transport-can-do">What are some stuff optimal transport can do?</h1>
+<p>The image recognition project is a clear example of using that 3rd property, we can compare a given image (a distribution) with a bunch of known images (also distributions) and determine which one is the most similar, giving us some rudimentary image recognition</p>
+<p>This blog post has many interesting examples</p>
+<p><a href="https://towardsdatascience.com/optimal-transport-a-hidden-gem-that-empowers-todays-machine-learning-2609bbf67e59">https://towardsdatascience.com/optimal-transport-a-hidden-gem-that-empowers-todays-machine-learning-2609bbf67e59</a></p>
+<p>Looking at the color transfer example, what I think is happening is</p>
+<ul>
+<li>Pixels are mapped into points on the RGB R^3 space</li>
+<li>The sunset image pixels are mapped to the distribution of the daytime image</li>
+<li>So black-ish sunset colors are mapped to black-ish daytime colors</li>
+<li>The interesting part is that light-ish sunset pixels are also mapped to light-ish daytime pixels, and everything inbetwee as well. So the distribution of reddish pixels are mapped onto the daytime distribution of blue-ish pixels.</li>
+<li>The bright parts of the image stay &ldquo;bright&rdquo;, but they&rsquo;re now &ldquo;bright&rdquo; in the daytime image&rsquo;s distribution of colors. Really cool stuff</li>
+<li>The core idea is essentially still that idea of mapping one probability distribution to another, but seeing this physical example is really cool</li>
+</ul>
+<p><a href="https://arxiv.org/pdf/1809.00013.pdf">https://arxiv.org/pdf/1809.00013.pdf</a></p>
+<p>I tried to learn a bit about this method for automated translation using OT&hellip; it&rsquo;s complicated</p>
+<p>The basic idea (I think) is:</p>
+<ul>
+<li>We have a distribution for language A</li>
+<li>We have a distribution for language B</li>
+<li>We want to use OT to make points of one language to another, but a concept of &ldquo;distance&rdquo; between the two distributions is complicated. What&rsquo;s the distance between &ldquo;cat&rdquo; and &ldquo;katze&rdquo;? They&rsquo;re just two points on two different distributions of words for their respective languages</li>
+<li>The authors instead opt to use a Gromov-Wasserstein distance
+<ul>
+<li>This metric focuses on trying to map out the overall structure of pairs in the different distributions, rather than comparing one point in distribution A and one point in distribution B</li>
+<li>How does it work? It measures how much it would make sense for a pair of words in language A to be mapped to a pair of words in language B by defining a distance between distances. If the distance between words a_1 and a_2 in language A is similar to that of b_1 and b_2 in language B, then it makes sense to pair a_1 to b_1 and a_2 to b_2.</li>
+</ul>
+</li>
+<li>The authors use OT to optimize for this pairing of words across languages, giving a mapping of words between languages, which can be used for things like translation</li>
+<li>One major benefit of this method is that we never need to have any knowledge of how language A relates to language B, we only need to know the pairwise relationships of words <em>within</em> each language, making this method extensible to other languages quickly (I think?)
+<ul>
+<li>We also only need to learn the relationships between the points in the distribution for language A, not the <em>actual positions</em> of the distriubtion for language A</li>
+<li>We only need to model how similar &ldquo;dog&rdquo; and &ldquo;cat&rdquo; and &ldquo;rainbow&rdquo; are, not place them exactly onto a R^d distribution</li>
+<li>This is also a problem that machine learning is good at (I think? Oh yea it says most modern word embedding is done by machine learning? <code>word2vec</code>?)</li>
+</ul>
+</li>
+<li>Anyway that was a fun little hour long adventure into an application of optimal transport</li>
+</ul>
+<p><a href="https://www.jmlr.org/papers/volume22/20-451/20-451.pdf">https://www.jmlr.org/papers/volume22/20-451/20-451.pdf</a></p>
+<pre tabindex="0"><code>Examples where this approach is useful in machine learning (ML)
+are ubiquitous and include, for instance, prominent tasks such as training generative adversarial networks (GANs) (Arjovsky et al., 2017) where OT was successfully used to overcome
+the vanishing gradient problem, and domain adaptation (Courty et al., 2016) where its capacity to align two distributions was used to transfer a classifier across different domains
+</code></pre><pre tabindex="0"><code>Other examples showing the versatility of OT are given by the averaging of population
+data in neuroscience (Gramfort et al., 2015), shape reconstruction (Bonneel et al., 2016)
+and learning word embeddings in natural language processing (Kusner et al., 2015).
+</code></pre><p>I&rsquo;m not exactly sure what these mean but the key point seems to be</p>
+<pre tabindex="0"><code>Optimal Transport (OT) is a field of mathematics which studies the geometry of probability spaces. Among its many contributions, OT provides a principled way to compare and align probability distributions by taking into account the underlying geometry of the
+considered metric space.
+</code></pre><p>Compare -&gt; determine cost of moving one distribution to another
+Align -&gt; Smoothly interpolate from one distribution to another</p>
+<p>&ldquo;Taking into account the underlying geometry of the metric space&rdquo; is an interesting point though. Since we can define these distributions over really whatever space we want, we can also define our own ideas of distance (ie defining distance between images by rgb value instead of something else)</p>
+<p>Anyway what I wanted to learn more about was algorithms for solving OT problems. In class we reduced them to LP problems but what about specialized OT solvers?</p>
+<pre tabindex="0"><code>The library provides recent state-of-the-art solvers for various optimal transport problems
+related to statistics and machine learning. As mentioned earlier, POT has sub-modules
+dedicated to different problems. In this section, we give a short description of the provided
+OT solvers.
+</code></pre><p>Ah, as expected the library defines a bunch of specialized solvers for OT problems, going one step further by having specizlied solvers for specific <em>kinds</em> of OT problems</p>
+<pre tabindex="0"><code>Documentation. POT provides detailed documentation2
+for each function and class.
+For each function, the documentation includes the mathematical problem that the function
+solves, parameter descriptions, returned elements, examples, and bibliographical references.
+All the papers related to the available solvers are listed in the documentation.
+</code></pre><p>Wow that&rsquo;s rare</p>
+<p>Let&rsquo;s look at that documentation</p>
+<p><a href="https://pythonot.github.io/quickstart.html#optimal-transport-and-wasserstein-distance">https://pythonot.github.io/quickstart.html#optimal-transport-and-wasserstein-distance</a></p>
+<pre tabindex="0"><code>The method implemented for solving the OT problem is the network simplex. 
+</code></pre><p>Common OT is implemented using the simplex method, oh but wait no it says &ldquo;network simplex&rdquo;</p>
+<p><a href="https://en.wikipedia.org/wiki/Network_simplex_algorithm">https://en.wikipedia.org/wiki/Network_simplex_algorithm</a></p>
+<pre tabindex="0"><code>In mathematical optimization, the network simplex algorithm is a graph theoretic specialization of the simplex algorithm. The algorithm is usually formulated in terms of a minimum-cost flow problem. The network simplex method works very well in practice, typically 200 to 300 times faster than the simplex method applied to general linear program of same dimensions.[citation needed]
+</code></pre><p>Woah.</p>
+<p>Reading the article the method does something like this (I think)</p>
+<ol>
+<li>Start with a solution, which in this case is a spanning tree of the graph. I guess because it&rsquo;s a spanning tree it&rsquo;s equivalent solution in the normal LP problem is on a vertex of the polytope?</li>
+<li>Attempt to pivot to a better solution by forming a cycle in the tree (entering variable), and then removing the &ldquo;weakest link&rdquo; (the one with the highest cost, leaving variable). This results in a new spanning tree (new solution on a vertex), with a higher value.</li>
+<li>Continue to pivot from vertex to vertex until the solution can&rsquo;t find a new entering variable (new edge to introduce that would increase the objective function)</li>
+</ol>
+<p>Huh that&rsquo;s cool, I wonder what exactly makes this faster than simplex. I guess invertiing the matricies is harder than solving the inherently more &ldquo;local&rdquo; problem of considering only the cycle that gets added onto the spanning tree? The matrix always has to contain all the variables since entering and leaving variables affect all the other values, and the spanning tree edge in/edge out only affects the local area that becomes a cycle.</p>
+<p>Anyway that&rsquo;s enough OT for me I think, learned some cool stuff though.</p>
+</section>
+
+  
+  
+
+  
+  
+  
+
+  
+  
+</article>
+
+
+    </main>
+
+    <footer
+  class="opaco mx-auto flex h-[5rem] max-w-3xl items-center px-8 text-[0.9em] opacity-60"
+>
+  <div class="mr-auto">
+    &copy; 2022
+    <a class="link" href="http://rctcwyvrn.github.io/optimization_portfolio">Math 441 portfolio</a>
+  </div>
+  <a class="link mx-6" href="https://gohugo.io/" rel="noopener" target="_blank"
+    >Powered by Hugo️️</a
+  >️
+  <a
+    class="link"
+    href="https://github.com/nanxiaobei/hugo-paper"
+    rel="noopener"
+    target="_blank"
+    >▷ Paper 6</a
+  >
+</footer>
+
+  </body>
+</html>
