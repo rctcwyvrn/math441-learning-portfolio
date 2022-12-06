@@ -1,0 +1,4 @@
+baseURL = "http://rctcwyvrn.github.io/"
+languageCode = "en-us"
+title = "Math 441 portfolio"
+theme = "paper"
