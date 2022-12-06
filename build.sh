@@ -1,5 +1,16 @@
 #!/usr/bin/bash
 
+# commit changes to LP articles
+git add -A 
+git commit -m "Update learning portfolio"
+git push
+
+# build to branch
+git checkout gh-pages
+
+# merge together
+git merge master
+
 # clear posts
 rm -r site/content/post/*
 
@@ -47,3 +58,13 @@ echo "\`\`\`python" >> site/content/post/graph_coloring_animations.md
 cat graph_coloring_animations/graph_coloring_greedy_strategies.py >> site/content/post/graph_coloring_animations.md
 echo "" >> site/content/post/graph_coloring_animations.md
 echo "\`\`\`" >> site/content/post/graph_coloring_animations.md
+
+# copy files
+cp -r site/public .
+
+# commit
+git add -A
+git commit -m "publish page"
+git push
+
+git checkout master
