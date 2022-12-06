@@ -9,7 +9,7 @@ git push
 git checkout gh-pages
 
 # merge together
-git merge master
+git merge master --no-edit
 
 # clear posts
 rm -r site/content/post/*
@@ -59,8 +59,11 @@ cat graph_coloring_animations/graph_coloring_greedy_strategies.py >> site/conten
 echo "" >> site/content/post/graph_coloring_animations.md
 echo "\`\`\`" >> site/content/post/graph_coloring_animations.md
 
-# copy files
-cp -r site/public/* .
+# build and copy files
+mkdir docs
+cd site
+hugo
+cp -r public/* ../docs
 
 # commit
 git add -A
