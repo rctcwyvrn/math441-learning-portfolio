@@ -1,7 +1,7 @@
-baseURL = 'http://rctcwyvrn.github.io/optimization_portfolio'
+baseURL = 'http://rctcwyvrn.github.io/math441-learning-portfolio/'
 languageCode = 'en-us'
 title = 'Math 441 portfolio'
 theme = "paper"
 [params]
   # color style
-  color = 'linen'                 # linen, wheat, gray, light
+  color = 'linen'
