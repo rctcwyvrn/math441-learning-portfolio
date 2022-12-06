@@ -1,4 +1,4 @@
-baseURL = 'http://rctcwyvrn.github.io/math441-learning-portfolio/'
+baseURL = 'https://rctcwyvrn.github.io/math441-learning-portfolio/'
 languageCode = 'en-us'
 title = 'Math 441 portfolio'
 theme = "paper"
