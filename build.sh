@@ -60,7 +60,7 @@ echo "" >> site/content/post/graph_coloring_animations.md
 echo "\`\`\`" >> site/content/post/graph_coloring_animations.md
 
 # copy files
-cp -r site/public .
+cp -r site/public/* .
 
 # commit
 git add -A
