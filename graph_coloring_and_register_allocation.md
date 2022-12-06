@@ -61,6 +61,6 @@ In [CPSC 411](https://www.students.cs.ubc.ca/~cs-411/2020w2/chp-reg-alloc_book_t
 
 The key observation that this paper makes is that this heuristic and it's implementations in modern compilers have the benefit of being customizable to the register allocation problem and the specific details of it, while the ILP version is "just" a graph coloring with some of the extra details tacked on, so the benefit of a slightly more optimal coloring is lost in the inability to consider real world details. It's interesting to see how what we learn in class might seem like it would be "optimal", but once it reaches the real world and its actual applications of these problems we might see that these algorithms can be beat by much simpler, purpose built algorithms like this register allocation heuristic.
 
-### So how does this algorithm compare to other strategies?
+### So how does this algorithm compare to other strategies for normal graph coloring?
 
 If I have time I'll try to find out, but that'll be for another learning portfolio entry!
