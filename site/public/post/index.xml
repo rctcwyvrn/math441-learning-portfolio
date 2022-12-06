@@ -2,16 +2,16 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on Math 441 portfolio</title>
-    <link>http://rctcwyvrn.github.io/math441-learning-portfolio/post/</link>
+    <link>https://rctcwyvrn.github.io/math441-learning-portfolio/post/</link>
     <description>Recent content in Posts on Math 441 portfolio</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language><atom:link href="http://rctcwyvrn.github.io/math441-learning-portfolio/post/index.xml" rel="self" type="application/rss+xml" />
+    <language>en-us</language><atom:link href="https://rctcwyvrn.github.io/math441-learning-portfolio/post/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Learning portfolio: Alternative nearest neighbours algorithms</title>
-      <link>http://rctcwyvrn.github.io/math441-learning-portfolio/post/alternative_nearest_neighbours/</link>
+      <link>https://rctcwyvrn.github.io/math441-learning-portfolio/post/alternative_nearest_neighbours/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://rctcwyvrn.github.io/math441-learning-portfolio/post/alternative_nearest_neighbours/</guid>
+      <guid>https://rctcwyvrn.github.io/math441-learning-portfolio/post/alternative_nearest_neighbours/</guid>
       <description>&lt;!DOCTYPE html&gt; alternative_nearest_neighbours During class we discussed a basic idea of nearest neighbours: each step simply introduce the nearest neighbour as the next node in the path. I had an idea for an addition to the method that I&#39;m curious to see if they&#39;ll make a difference at all
 Starting with the code from lecture
 In&amp;nbsp;[1]: import numpy as np import scipy.linalg as la import matplotlib.pyplot as plt from itertools import permutations def cost_matrix(V): n = V.</description>
@@ -19,10 +19,10 @@ In&amp;nbsp;[1]: import numpy as np import scipy.linalg as la import matplotlib.
     
     <item>
       <title>Learning Portfolio: Deeper dive into optimal transport</title>
-      <link>http://rctcwyvrn.github.io/math441-learning-portfolio/post/optimal_transport/</link>
+      <link>https://rctcwyvrn.github.io/math441-learning-portfolio/post/optimal_transport/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://rctcwyvrn.github.io/math441-learning-portfolio/post/optimal_transport/</guid>
+      <guid>https://rctcwyvrn.github.io/math441-learning-portfolio/post/optimal_transport/</guid>
       <description>A quick google search indicates that optimal transport is more than just a linear programming problem about moving resources, and has many far reaching applications
 https://kantorovich.org/post/ot_intro/
 This basic problem has a wealth of applications within mathematics (in the theory of partial differential equations, geometry, functional analysis, optimization, probability and so on) as well as in other fields (image processing, data science, economics, chemical physics etc.) and is currently an extremely active research area in both theory and applications.</description>
@@ -30,46 +30,46 @@ This basic problem has a wealth of applications within mathematics (in the theor
     
     <item>
       <title>Learning portfolio: Exploring a smaller matrix representation of network flows</title>
-      <link>http://rctcwyvrn.github.io/math441-learning-portfolio/post/smaller_network_matrix_tests/</link>
+      <link>https://rctcwyvrn.github.io/math441-learning-portfolio/post/smaller_network_matrix_tests/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://rctcwyvrn.github.io/math441-learning-portfolio/post/smaller_network_matrix_tests/</guid>
+      <guid>https://rctcwyvrn.github.io/math441-learning-portfolio/post/smaller_network_matrix_tests/</guid>
       <description>&lt;!DOCTYPE html&gt; smaller_network_matrix_tests In&amp;nbsp;[1]: import numpy as np import scipy.linalg as la # import pandas as pd import matplotlib.pyplot as plt from scipy.optimize import linprog import random def plotG(V,E,arrow_length=0.5,arrow_width=0.01,figsize=None): V = np.array(V); E = np.array(E) if figsize: plt.figure(figsize=figsize) for e in E: i,j = e plt.plot([V[i,0],V[j,0]],[V[i,1],V[j,1]],&amp;#39;k&amp;#39;) plt.arrow(V[i,0],V[i,1],(V[j,0] - V[i,0])*arrow_length,(V[j,1] - V[i,1])*arrow_length,width=arrow_width,color=&amp;#39;k&amp;#39;) plt.plot(V[:,0],V[:,1],&amp;#39;w.&amp;#39;,markersize=40,markeredgecolor=&amp;#39;k&amp;#39;) for i in range(V.shape[0]): plt.annotate(str(i),xy=V[i,:],ha=&amp;#39;center&amp;#39;,va=&amp;#39;center&amp;#39;) plt.axis(False) plt.show() During class we modelled network flows using a $ n^2-n $ sized matrix and naturally the question I had was, is it more efficient to just have a $ mxn $ sized matrix?</description>
     </item>
     
     <item>
       <title>Learning portfolio: Graph coloring and register allocation</title>
-      <link>http://rctcwyvrn.github.io/math441-learning-portfolio/post/graph_coloring_and_register_allocation/</link>
+      <link>https://rctcwyvrn.github.io/math441-learning-portfolio/post/graph_coloring_and_register_allocation/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://rctcwyvrn.github.io/math441-learning-portfolio/post/graph_coloring_and_register_allocation/</guid>
+      <guid>https://rctcwyvrn.github.io/math441-learning-portfolio/post/graph_coloring_and_register_allocation/</guid>
       <description>While implementing a compiler for CPSC 411 last year we had to implement a register allocator, which is a real world usage of graph coloring that I encountered last year. It has some interesting computational properties and it&amp;rsquo;s use of graph coloring is pretty interesting so I thought I could write about it for my learning portfolio. It turns out that for register allocation of real programs, the problem is so large that even a greedy approximation is too slow and an even faster algorithm is required!</description>
     </item>
     
     <item>
       <title>Learning portfolio: Graph coloring animations</title>
-      <link>http://rctcwyvrn.github.io/math441-learning-portfolio/post/graph_coloring_animations/</link>
+      <link>https://rctcwyvrn.github.io/math441-learning-portfolio/post/graph_coloring_animations/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://rctcwyvrn.github.io/math441-learning-portfolio/post/graph_coloring_animations/</guid>
+      <guid>https://rctcwyvrn.github.io/math441-learning-portfolio/post/graph_coloring_animations/</guid>
       <description>from tkinter import N from flask import Flask, render_template, redirect, request import networkx as nx import matplotlib.pyplot as plt import matplotlib.animation as animation import hashlib app = Flask(__name__) STRATEGIES = { &amp;#34;largest_first&amp;#34;: nx.algorithms.coloring.strategy_largest_first, &amp;#34;random_sequential&amp;#34;: nx.algorithms.coloring.strategy_random_sequential, &amp;#34;smallest_last&amp;#34;: nx.algorithms.coloring.strategy_smallest_last, &amp;#34;independent_set&amp;#34;: nx.algorithms.coloring.strategy_independent_set, &amp;#34;connected_sequential_bfs&amp;#34;: nx.algorithms.coloring.strategy_connected_sequential_bfs, &amp;#34;connected_sequential_dfs&amp;#34;: nx.algorithms.coloring.strategy_connected_sequential_dfs, } @app.context_processor def inject_strategies(): def hash_file(filename): return hashlib.md5(open(&amp;#34;static/&amp;#34; + filename, &amp;#34;rb&amp;#34;).read(20)).hexdigest() return dict(STRATEGIES=STRATEGIES, hash=hash_file) def draw_animation_for_ordering(G, name, strategy): coloring = nx.greedy_color(G, strategy=strategy) ordering = list(strategy(G, None)) fig,ax = plt.</description>
     </item>
     
     <item>
       <title>Learning portfolio: Knapsack problems, cryptography, and lattices</title>
-      <link>http://rctcwyvrn.github.io/math441-learning-portfolio/post/cryptography_and_lattices/</link>
+      <link>https://rctcwyvrn.github.io/math441-learning-portfolio/post/cryptography_and_lattices/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://rctcwyvrn.github.io/math441-learning-portfolio/post/cryptography_and_lattices/</guid>
+      <guid>https://rctcwyvrn.github.io/math441-learning-portfolio/post/cryptography_and_lattices/</guid>
       <description>&lt;!DOCTYPE html&gt; cryptography_and_lattices In 1976 Whitfield Diffie and Martin Hellman developed what would become a key concept in modern telecommunications, the public key cryptosystem. In a paper titled &#34;New directions in cryptography&#34; they developed the first public key exchange and theorized what would eventually become public key cryptography but with one key part missing. Diffie and Hellman built their model for a public key cryptosystem with a theoretical &#34;one way trapdoor function&#34;</description>
     </item>
     
     <item>
       <title>Learning portfolio: Solving mixed-integer linear programming</title>
-      <link>http://rctcwyvrn.github.io/math441-learning-portfolio/post/how_does_linprog_ip_work/</link>
+      <link>https://rctcwyvrn.github.io/math441-learning-portfolio/post/how_does_linprog_ip_work/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://rctcwyvrn.github.io/math441-learning-portfolio/post/how_does_linprog_ip_work/</guid>
+      <guid>https://rctcwyvrn.github.io/math441-learning-portfolio/post/how_does_linprog_ip_work/</guid>
       <description>&lt;!DOCTYPE html&gt; how_does_linprog_ip_work What&#39;s wrong with linprog?&amp;#182;During class when we want to solve integer programming problems we&#39;ve used the same scipy linprog solver that we used for linear programming, but just with the integrality parameter set. In class we&#39;ve claimed that this produces the &#34;optimal&#34; solution for these integer programming problems and we&#39;ve seen that integer programming is much more efficient than using a bruteforce combinatorial method. Some of the examples of problems we&#39;ve solved using this method are NP-complete, problems that are currently unknown to be solvable in polynomial time.</description>
     </item>
     
