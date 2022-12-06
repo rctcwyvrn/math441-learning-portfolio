@@ -1,6 +1,0 @@
-[submodule "site/--force"]
-	path = site/--force
-	url = https://github.com/nanxiaobei/hugo-paper
-[submodule "site/themes/paper"]
-	path = site/themes/paper
-	url = https://github.com/nanxiaobei/hugo-paper
