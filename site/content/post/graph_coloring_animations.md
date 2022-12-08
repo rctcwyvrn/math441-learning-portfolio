@@ -1,5 +1,5 @@
 +++
-title = "Learning portfolio: Graph coloring animations"
+title = "Graph coloring animations"
 +++
 
 ```python

@@ -1,5 +1,5 @@
 ---
-title: "Learning portfolio: Graph coloring and register allocation"
+title: "Graph coloring and register allocation"
 author: Lily Lin
 geometry: margin=2cm
 output: pdf_document

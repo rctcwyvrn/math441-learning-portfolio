@@ -1,5 +1,5 @@
 ---
-title: "Learning Portfolio: Deeper dive into optimal transport"
+title: "Deeper dive into optimal transport"
 author: Lily Lin
 geometry: margin=2cm
 output: pdf_document
