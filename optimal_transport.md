@@ -5,6 +5,9 @@ geometry: margin=2cm
 output: pdf_document
 colorlinks: true
 ---
+
+The source code for this entry can be found at [https://github.com/rctcwyvrn/math441-learning-portfolio/blob/master/optimal_transport.md](https://github.com/rctcwyvrn/math441-learning-portfolio/blob/master/optimal_transport.md)
+
 A quick google search indicates that optimal transport is more than just a linear programming problem about moving resources, and has many far reaching applications
 
 https://kantorovich.org/post/ot_intro/ 
