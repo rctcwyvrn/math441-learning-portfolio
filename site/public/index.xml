@@ -7,18 +7,27 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language><atom:link href="https://rctcwyvrn.github.io/math441-learning-portfolio/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Learning portfolio: Alternative nearest neighbours algorithms</title>
+      <title>Alternative nearest neighbours algorithms</title>
       <link>https://rctcwyvrn.github.io/math441-learning-portfolio/post/alternative_nearest_neighbours/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://rctcwyvrn.github.io/math441-learning-portfolio/post/alternative_nearest_neighbours/</guid>
       <description>&lt;!DOCTYPE html&gt; alternative_nearest_neighbours During class we discussed a basic idea of nearest neighbours: each step simply introduce the nearest neighbour as the next node in the path. I had an idea for an addition to the method that I&#39;m curious to see if they&#39;ll make a difference at all
 Starting with the code from lecture
-In&amp;nbsp;[1]: import numpy as np import scipy.linalg as la import matplotlib.pyplot as plt from itertools import permutations def cost_matrix(V): n = V.</description>
+In&amp;nbsp;[105]: import numpy as np import scipy.linalg as la import matplotlib.pyplot as plt from itertools import permutations def cost_matrix(V): n = V.</description>
     </item>
     
     <item>
-      <title>Learning Portfolio: Deeper dive into optimal transport</title>
+      <title>Cover letter</title>
+      <link>https://rctcwyvrn.github.io/math441-learning-portfolio/post/cover/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://rctcwyvrn.github.io/math441-learning-portfolio/post/cover/</guid>
+      <description>Intro Over the course of the term we got to learn about a number of optimization problems and saw how they could be solved using various libraries and techniques. While watching these problems get solved I often found myself wondering how things would go differently if some things were changed and that formed the basis of some of my learning portfolio entries. The rest of my learning portfolio entries are mainly focused on connecting problems we learned in class to other areas and seeing how these problems can be applied in different contexts.</description>
+    </item>
+    
+    <item>
+      <title>Deeper dive into optimal transport</title>
       <link>https://rctcwyvrn.github.io/math441-learning-portfolio/post/optimal_transport/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -29,7 +38,7 @@ This basic problem has a wealth of applications within mathematics (in the theor
     </item>
     
     <item>
-      <title>Learning portfolio: Exploring a smaller matrix representation of network flows</title>
+      <title>Exploring a smaller matrix representation of network flows</title>
       <link>https://rctcwyvrn.github.io/math441-learning-portfolio/post/smaller_network_matrix_tests/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -38,7 +47,7 @@ This basic problem has a wealth of applications within mathematics (in the theor
     </item>
     
     <item>
-      <title>Learning portfolio: Graph coloring and register allocation</title>
+      <title>Graph coloring and register allocation</title>
       <link>https://rctcwyvrn.github.io/math441-learning-portfolio/post/graph_coloring_and_register_allocation/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -47,7 +56,7 @@ This basic problem has a wealth of applications within mathematics (in the theor
     </item>
     
     <item>
-      <title>Learning portfolio: Graph coloring animations</title>
+      <title>Graph coloring animations</title>
       <link>https://rctcwyvrn.github.io/math441-learning-portfolio/post/graph_coloring_animations/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -56,7 +65,7 @@ This basic problem has a wealth of applications within mathematics (in the theor
     </item>
     
     <item>
-      <title>Learning portfolio: Knapsack problems, cryptography, and lattices</title>
+      <title>Knapsack problems, cryptography, and lattices</title>
       <link>https://rctcwyvrn.github.io/math441-learning-portfolio/post/cryptography_and_lattices/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -65,7 +74,7 @@ This basic problem has a wealth of applications within mathematics (in the theor
     </item>
     
     <item>
-      <title>Learning portfolio: Solving mixed-integer linear programming</title>
+      <title>Solving mixed-integer linear programming</title>
       <link>https://rctcwyvrn.github.io/math441-learning-portfolio/post/how_does_linprog_ip_work/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
