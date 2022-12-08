@@ -60,5 +60,5 @@ def index():
     return render_template('template.html')
 
 if __name__ == "__main__":
-    generate_new_animations(8, 12)
+    # generate_new_animations(8, 12)
     app.run(host="localhost", port=8000, debug=True)

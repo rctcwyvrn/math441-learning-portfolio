@@ -26,3 +26,9 @@ Finally, I dive into a problem that bothered me throughout the term: If we're re
 ## Reflecting on the term
 
 I had a lot of fun working on these over the course of the term, I haven't had any classes like this where both the lecture content and course work are completely free form and allow students to explore whatever they find interesting. I personally found that the lecture style lended well to inspiring questions and prompting me to want to look into these problems, so I never had a lack of ideas to work on. I will say that not being proficient at writing code would be a large roadblock as a lot of these these fun ideas really were best explored by writing code and seeing what would happen.
+
+
+### Feedback
+One bit of feedback that I'll give is that the learning portfolio format ends up strongly encouraging short investigtaions into a wide number of topics due to its grading scheme. Since each portfolio entry is graded seperately us students aren't encouraged to really dive deep into one thing, since meeting the criteria for a single entry is pretty simple (just one page of work after all).
+
+I would suggest maybe loosening the idea of individual portfolio entries and grading the entire portfolio as a whole, allowing students to do both deep dives into a few topics they find really interesting or a wide spread of shorter entries. In my case I had the problem of "I really want to keep working on this entry, but it's already very long and if I put more time into it I won't have time to finish my other entries"

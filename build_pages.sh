@@ -42,13 +42,7 @@ cat smaller_network_matrix_tests.html >> site/content/post/smaller_network_matri
 python patch.py site/content/post/smaller_network_matrix_tests.html
 rm smaller_network_matrix_tests.html
 
-# jank for now
-
-echo "+++" > site/content/post/graph_coloring_animations.md
-echo "title = \"Graph coloring animations\"" >> site/content/post/graph_coloring_animations.md
-echo "+++" >> site/content/post/graph_coloring_animations.md
-echo "" >> site/content/post/graph_coloring_animations.md
-echo "\`\`\`python" >> site/content/post/graph_coloring_animations.md
-cat graph_coloring_animations/graph_coloring_greedy_strategies.py >> site/content/post/graph_coloring_animations.md
-echo "" >> site/content/post/graph_coloring_animations.md
-echo "\`\`\`" >> site/content/post/graph_coloring_animations.md
+# copy over the static animations
+mkdir site/content/post/graph_coloring_animations/
+cp graph_coloring_animations/static/* site/content/post/graph_coloring_animations/
+cp graph_coloring_animations_notes.md site/content/post/
