@@ -3,13 +3,6 @@
 # commit changes to LP articles
 git add -A 
 git commit -m "Update learning portfolio"
-git push
-
-# build to branch
-git checkout gh-pages
-
-# merge together
-git merge master --no-edit
 
 # build all the content
 ./build_pages.sh
@@ -22,7 +15,14 @@ cp -r public/* ../docs
 
 # commit
 git add -A
-git commit -m "publish page"
+git commit -m "Build pages"
 git push
 
+# update master with new pages
 git checkout master
+git checkout gh-pages alternative_nearest_neighbours.ipynb
+git checkout gh-pages cryptography_and_lattices.ipynb
+git checkout gh-pages how_does_linprog_ip_work.ipynb
+git checkout gh-pages smaller_network_matrix_tests.ipynb
+git checkout gh-pages cover.md
+git checkout gh-pages optimal_transport.md
