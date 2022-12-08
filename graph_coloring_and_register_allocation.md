@@ -6,6 +6,9 @@ output: pdf_document
 colorlinks: true
 ---
 
+The source code for this entry can be found at [https://github.com/rctcwyvrn/math441-learning-portfolio/blob/master/graph_coloring_and_register_allocation.md](https://github.com/rctcwyvrn/math441-learning-portfolio/blob/master/graph_coloring_and_register_allocation.md)
+
+
 While implementing a compiler for CPSC 411 last year we had to implement a register allocator, which is a real world usage of graph coloring that I encountered last year. It has some interesting computational properties and it's use of graph coloring is pretty interesting so I thought I could write about it for my learning portfolio. It turns out that for register allocation of real programs, the problem is so large that even a greedy approximation is too slow and an even faster algorithm is required!
 
 ## What is register allocation?
