@@ -113,7 +113,7 @@ In&nbsp;[105]: import numpy as np import scipy.linalg as la import matplotlib.py
 Starting with the code from lecture
 In&nbsp;[105]: import numpy as np import scipy.linalg as la import matplotlib.pyplot as plt from itertools import permutations def cost_matrix(V): n = V.">
 
-<meta itemprop="wordCount" content="2757">
+<meta itemprop="wordCount" content="2645">
 <meta itemprop="keywords" content="" />
   
   <meta name="twitter:card" content="summary"/>
@@ -14634,74 +14634,6 @@ a.anchor-link {
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[72]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-     <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># def lookahead_nearest_neighbor(V,start=0, lookahead=1,closest=True):</span>
-<span class="c1">#     n = V.shape[0]</span>
-<span class="c1">#     C = cost_matrix(V)</span>
-
-<span class="c1">#     # we build a full tour by recursively picking the next location we want to visit via the lookahead strategy</span>
-<span class="c1">#     def build_tour(current_tour, available_nodes):</span>
-<span class="c1">#         if len(available_nodes) == 1:</span>
-<span class="c1">#             return current_tour + [available_nodes[0]]</span>
-<span class="c1">#         else:</span>
-<span class="c1">#             next_tour, new_avail = lookahead_pick(current_tour, available_nodes)</span>
-<span class="c1">#             return build_tour(next_tour, new_avail)</span>
-
-<span class="c1">#     # we pick the next location by building a list of possible choices, sorting to chose the lowest one, and choosing that</span>
-<span class="c1">#     def lookahead_pick(current_tour, available_nodes):</span>
-<span class="c1">#         peek = min(len(available_nodes), lookahead)</span>
-<span class="c1">#         choices = lookahead_get_choices(current_tour, available_nodes, peek)</span>
-<span class="c1">#         # print(&quot;current&quot;, current_tour)</span>
-<span class="c1">#         # print(&quot;choices&quot;, choices)</span>
-<span class="c1">#         sorted_choices = sorted(choices, key=lambda x: x[0])</span>
-<span class="c1">#         if closest:</span>
-<span class="c1">#             best = sorted_choices[0]</span>
-<span class="c1">#             return best[1][0], best[1][1]</span>
-<span class="c1">#         else:</span>
-<span class="c1">#             best = sorted_choices[-1]</span>
-<span class="c1">#             return best[1][0], best[1][1]</span>
-        
-<span class="c1">#     # to get the list of possible choices with a given amount of lookahead, we again use a recursive function</span>
-<span class="c1">#     def lookahead_get_choices(current_tour, available_nodes, peek):</span>
-<span class="c1">#         if peek == 0:</span>
-<span class="c1">#             t = pick_next_tour_location(current_tour, available_nodes)</span>
-<span class="c1">#             return [[tour_cost(C, t[0]), t]]</span>
-<span class="c1">#         else:</span>
-<span class="c1">#             choices = []</span>
-<span class="c1">#             for node_i, node in enumerate(available_nodes):</span>
-<span class="c1">#                 temp = list(available_nodes)</span>
-<span class="c1">#                 temp.pop(node_i)</span>
-<span class="c1">#                 choices += lookahead_get_choices(current_tour + [node], temp, peek-1)</span>
-<span class="c1">#             return choices</span>
-
-<span class="c1">#     # wait huh why does it do this...?</span>
-<span class="c1">#     def pick_next_tour_location(current_tour, available_nodes):</span>
-<span class="c1">#         if len(available_nodes) == 0:</span>
-<span class="c1">#             return (current_tour, [])</span>
-<span class="c1">#         next_i = np.argmin(C[current_tour[-1],available_nodes])</span>
-<span class="c1">#         next_node = available_nodes[next_i]</span>
-<span class="c1">#         temp = list(available_nodes)</span>
-<span class="c1">#         temp.pop(next_i)</span>
-<span class="c1">#         return (current_tour + [next_node], temp)</span>
-
-<span class="c1">#     tour = [start]</span>
-<span class="c1">#     nodes = list(range(n))</span>
-<span class="c1">#     nodes.remove(start)</span>
-<span class="c1">#     tour = build_tour(tour, nodes)</span>
-<span class="c1">#     cost = tour_cost(C,tour)</span>
-<span class="c1">#     return tour,cost</span>
-</pre></div>
-
-     </div>
-</div>
-</div>
-</div>
-
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[102]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
@@ -15573,7 +15505,7 @@ next node = 3
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>From this we can make a hypothesis for what's causing the lookahead strategy to do worse, it attempts to go straight for the areas of clumped together nodes (nodes 1,3,7 in the above example). After touring through those nearby nodes it then has to jump out farther to reach the next group of nearby nodes.</p>
+<p>From this we can make a hypothesis for what's causing the lookahead strategy to do worse, <em>it attempts to go straight for the areas of clumped together nodes</em> (nodes 1,3,7 in the above example). After touring through those nearby nodes it then has to jump out farther to reach the next group of nearby nodes.</p>
 <p>Nearest neighbours performs better because it never makes a big jump to go towards a group of nearby nodes, while still always routing over the same groups of nearby nodes.</p>
 <p>This matches what we saw in some of the examples earlier with many nodes, it appeared that there were many long lines crisscrosssing the map in the lookahead greedy scheme. This was probably the same pattern of jumping towards an area of clumped nodes and then having to jump to the next one, instead of taking each group as it appears like the nearest neighbours algorithm</p>
 
@@ -15679,7 +15611,7 @@ next node = 3
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>What about a more extreme example?</p>
+<p>Aha! This does cause it to fail! What about a more extreme example?</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
@@ -15784,6 +15716,15 @@ next node = 3
 
 </div>
 
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Wow that clearly illustrates what's causing the lookahead algorithm to perform worse than nearest neighbours. It's likely that this property of jumping between clumps is causing the lookahead algorithm to subtly go in the wrong direction in the earlier exmaples and end up with longer paths.</p>
+<p>It's interesting to see how this seemingly minor change that should only make the algorithm better causes it to spiral off in the wrong direction completely.</p>
+<p>Theoretically speaking, given a long enough lookahead it should be able to defeat this problem, namely with enough lookahead to be able to look <em>beyond</em> any potential clumps, but that quickly becomes computationally infeasible.</p>
+<p>Maybe a combination of a long lookahead (6+ steps) with a smart tree pruning heuristic (only look ahead to steps that are nearby) this method could work, but that's a lot of work and I've already spent too much time working on this.</p>
+
+</div>
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
