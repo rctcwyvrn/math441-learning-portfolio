@@ -20,6 +20,7 @@ git push
 
 # update master with new pages
 git checkout master
+git fetch
 git checkout gh-pages alternative_nearest_neighbours.ipynb
 git checkout gh-pages cryptography_and_lattices.ipynb
 git checkout gh-pages how_does_linprog_ip_work.ipynb
