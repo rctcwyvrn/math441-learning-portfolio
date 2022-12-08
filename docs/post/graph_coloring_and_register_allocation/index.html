@@ -42,7 +42,8 @@
   
   <meta name="theme-color" />
   
-  <meta name="description" content="While implementing a compiler for CPSC 411 last year we had to implement a register allocator, which is a real world usage of graph coloring that I encountered last year. It has some interesting computational properties and it&rsquo;s use of graph coloring is pretty interesting so I thought I could write about it for my learning portfolio. It turns out that for register allocation of real programs, the problem is so large that even a greedy approximation is too slow and an even faster algorithm is required!" />
+  <meta name="description" content="The source code for this entry can be found at https://github.com/rctcwyvrn/math441-learning-portfolio/blob/master/graph_coloring_and_register_allocation.md
+While implementing a compiler for CPSC 411 last year we had to implement a register allocator, which is a real world usage of graph coloring that I encountered last year. It has some interesting computational properties and it&rsquo;s use of graph coloring is pretty interesting so I thought I could write about it for my learning portfolio. It turns out that for register allocation of real programs, the problem is so large that even a greedy approximation is too slow and an even faster algorithm is required!" />
   <meta
     name="author"
     content="Lily Lin"
@@ -96,7 +97,8 @@
   
   
   <meta property="og:title" content="Graph coloring and register allocation" />
-<meta property="og:description" content="While implementing a compiler for CPSC 411 last year we had to implement a register allocator, which is a real world usage of graph coloring that I encountered last year. It has some interesting computational properties and it&rsquo;s use of graph coloring is pretty interesting so I thought I could write about it for my learning portfolio. It turns out that for register allocation of real programs, the problem is so large that even a greedy approximation is too slow and an even faster algorithm is required!" />
+<meta property="og:description" content="The source code for this entry can be found at https://github.com/rctcwyvrn/math441-learning-portfolio/blob/master/graph_coloring_and_register_allocation.md
+While implementing a compiler for CPSC 411 last year we had to implement a register allocator, which is a real world usage of graph coloring that I encountered last year. It has some interesting computational properties and it&rsquo;s use of graph coloring is pretty interesting so I thought I could write about it for my learning portfolio. It turns out that for register allocation of real programs, the problem is so large that even a greedy approximation is too slow and an even faster algorithm is required!" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://rctcwyvrn.github.io/math441-learning-portfolio/post/graph_coloring_and_register_allocation/" /><meta property="article:section" content="post" />
 
@@ -105,14 +107,16 @@
 
   
   <meta itemprop="name" content="Graph coloring and register allocation">
-<meta itemprop="description" content="While implementing a compiler for CPSC 411 last year we had to implement a register allocator, which is a real world usage of graph coloring that I encountered last year. It has some interesting computational properties and it&rsquo;s use of graph coloring is pretty interesting so I thought I could write about it for my learning portfolio. It turns out that for register allocation of real programs, the problem is so large that even a greedy approximation is too slow and an even faster algorithm is required!">
+<meta itemprop="description" content="The source code for this entry can be found at https://github.com/rctcwyvrn/math441-learning-portfolio/blob/master/graph_coloring_and_register_allocation.md
+While implementing a compiler for CPSC 411 last year we had to implement a register allocator, which is a real world usage of graph coloring that I encountered last year. It has some interesting computational properties and it&rsquo;s use of graph coloring is pretty interesting so I thought I could write about it for my learning portfolio. It turns out that for register allocation of real programs, the problem is so large that even a greedy approximation is too slow and an even faster algorithm is required!">
 
-<meta itemprop="wordCount" content="1495">
+<meta itemprop="wordCount" content="1506">
 <meta itemprop="keywords" content="" />
   
   <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Graph coloring and register allocation"/>
-<meta name="twitter:description" content="While implementing a compiler for CPSC 411 last year we had to implement a register allocator, which is a real world usage of graph coloring that I encountered last year. It has some interesting computational properties and it&rsquo;s use of graph coloring is pretty interesting so I thought I could write about it for my learning portfolio. It turns out that for register allocation of real programs, the problem is so large that even a greedy approximation is too slow and an even faster algorithm is required!"/>
+<meta name="twitter:description" content="The source code for this entry can be found at https://github.com/rctcwyvrn/math441-learning-portfolio/blob/master/graph_coloring_and_register_allocation.md
+While implementing a compiler for CPSC 411 last year we had to implement a register allocator, which is a real world usage of graph coloring that I encountered last year. It has some interesting computational properties and it&rsquo;s use of graph coloring is pretty interesting so I thought I could write about it for my learning portfolio. It turns out that for register allocation of real programs, the problem is so large that even a greedy approximation is too slow and an even faster algorithm is required!"/>
 
   
   
@@ -210,7 +214,8 @@
     
   </header>
 
-  <section><p>While implementing a compiler for CPSC 411 last year we had to implement a register allocator, which is a real world usage of graph coloring that I encountered last year. It has some interesting computational properties and it&rsquo;s use of graph coloring is pretty interesting so I thought I could write about it for my learning portfolio. It turns out that for register allocation of real programs, the problem is so large that even a greedy approximation is too slow and an even faster algorithm is required!</p>
+  <section><p>The source code for this entry can be found at <a href="https://github.com/rctcwyvrn/math441-learning-portfolio/blob/master/graph_coloring_and_register_allocation.md">https://github.com/rctcwyvrn/math441-learning-portfolio/blob/master/graph_coloring_and_register_allocation.md</a></p>
+<p>While implementing a compiler for CPSC 411 last year we had to implement a register allocator, which is a real world usage of graph coloring that I encountered last year. It has some interesting computational properties and it&rsquo;s use of graph coloring is pretty interesting so I thought I could write about it for my learning portfolio. It turns out that for register allocation of real programs, the problem is so large that even a greedy approximation is too slow and an even faster algorithm is required!</p>
 <h2 id="what-is-register-allocation">What is register allocation?</h2>
 <p>Register allocation is a key pass in a compiler and represents one of the major shifts in abstraction that a compiler targetting assembly takes. A compiler lowers a high level language to a lower level language, one can represent a compiler as a series of passes that take a feature/abstraction that exists in the higher level language and represent it equivalently in terms of the lower level language.</p>
 <p>Register allocation is the pass that removes the abstraction of physical memory. For all but the lowest level programming languages, you don&rsquo;t want to have to consider where your variables are physically stored because it&rsquo;s extremely difficult to keep track of, therefore almost all languages will handle allocation of these variables to physical registers/memory locations in a register allocation pass.</p>
