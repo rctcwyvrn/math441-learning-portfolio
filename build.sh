@@ -26,6 +26,8 @@ git checkout gh-pages how_does_linprog_ip_work.ipynb
 git checkout gh-pages smaller_network_matrix_tests.ipynb
 git checkout gh-pages cover.md
 git checkout gh-pages optimal_transport.md
+git checkout gh-pages graph_coloring_animations_notes.md
+
 git commit -m "Update master"
 git push
 git checkout gh-pages
