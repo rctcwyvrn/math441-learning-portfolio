@@ -7,6 +7,17 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language><atom:link href="https://rctcwyvrn.github.io/math441-learning-portfolio/post/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>A deep dive into optimal transport</title>
+      <link>https://rctcwyvrn.github.io/math441-learning-portfolio/post/optimal_transport/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://rctcwyvrn.github.io/math441-learning-portfolio/post/optimal_transport/</guid>
+      <description>The source code for this entry can be found at https://github.com/rctcwyvrn/math441-learning-portfolio/blob/master/optimal_transport.md
+A quick google search indicates that optimal transport is more than just a linear programming problem about moving resources, and has many far reaching applications
+This basic problem has a wealth of applications within mathematics (in the theory of partial differential equations, geometry, functional analysis, optimization, probability and so on) as well as in other fields (image processing, data science, economics, chemical physics etc.</description>
+    </item>
+    
+    <item>
       <title>Alternative nearest neighbours algorithms</title>
       <link>https://rctcwyvrn.github.io/math441-learning-portfolio/post/alternative_nearest_neighbours/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -28,25 +39,14 @@ In&amp;nbsp;[105]: import numpy as np import scipy.</description>
     </item>
     
     <item>
-      <title>Deeper dive into optimal transport</title>
-      <link>https://rctcwyvrn.github.io/math441-learning-portfolio/post/optimal_transport/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://rctcwyvrn.github.io/math441-learning-portfolio/post/optimal_transport/</guid>
-      <description>The source code for this entry can be found at https://github.com/rctcwyvrn/math441-learning-portfolio/blob/master/optimal_transport.md
-A quick google search indicates that optimal transport is more than just a linear programming problem about moving resources, and has many far reaching applications
-https://kantorovich.org/post/ot_intro/
-This basic problem has a wealth of applications within mathematics (in the theory of partial differential equations, geometry, functional analysis, optimization, probability and so on) as well as in other fields (image processing, data science, economics, chemical physics etc.</description>
-    </item>
-    
-    <item>
       <title>Exploring a smaller matrix representation of network flows</title>
       <link>https://rctcwyvrn.github.io/math441-learning-portfolio/post/smaller_network_matrix_tests/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://rctcwyvrn.github.io/math441-learning-portfolio/post/smaller_network_matrix_tests/</guid>
       <description>&lt;!DOCTYPE html&gt; smaller_network_matrix_tests The source code for this entry can be found at https://github.com/rctcwyvrn/math441-learning-portfolio/blob/master/smaller_network_matrix_tests.ipynb
-In&amp;nbsp;[1]: import numpy as np import scipy.linalg as la # import pandas as pd import matplotlib.pyplot as plt from scipy.optimize import linprog import random def plotG(V,E,arrow_length=0.5,arrow_width=0.01,figsize=None): V = np.array(V); E = np.array(E) if figsize: plt.figure(figsize=figsize) for e in E: i,j = e plt.plot([V[i,0],V[j,0]],[V[i,1],V[j,1]],&amp;#39;k&amp;#39;) plt.arrow(V[i,0],V[i,1],(V[j,0] - V[i,0])*arrow_length,(V[j,1] - V[i,1])*arrow_length,width=arrow_width,color=&amp;#39;k&amp;#39;) plt.plot(V[:,0],V[:,1],&amp;#39;w.&amp;#39;,markersize=40,markeredgecolor=&amp;#39;k&amp;#39;) for i in range(V.shape[0]): plt.annotate(str(i),xy=V[i,:],ha=&amp;#39;center&amp;#39;,va=&amp;#39;center&amp;#39;) plt.axis(False) plt.show() During class we modelled network flows using a $ n^2-n $ sized matrix and naturally the question I had was, is it more efficient to just have a $ mxn $ sized matrix?</description>
+During class we modelled network flows using a $ n^2-n $ sized matrix and naturally the question I had was, is it more efficient to just have a $ mxn $ sized matrix?
+Recall that during lecture we did our optimization with a $n^2 - n$ sized vector $x$ which was a flattened representation of $x$ as a matrix where each $x_{i,j}$ represented the flow between nodes $i$ and $j$.</description>
     </item>
     
     <item>
