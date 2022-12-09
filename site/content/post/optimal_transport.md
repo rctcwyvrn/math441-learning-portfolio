@@ -1,5 +1,5 @@
 ---
-title: "Deeper dive into optimal transport"
+title: "A deep dive into optimal transport"
 author: Lily Lin
 geometry: margin=2cm
 output: pdf_document
@@ -129,10 +129,10 @@ That wraps up my whirlwind tour of optimal transport, I hope you learned somethi
 
 ## References
 
-[1]: https://kantorovich.org/post/ot_intro/ 
-[2]: https://towardsdatascience.com/optimal-transport-a-hidden-gem-that-empowers-todays-machine-learning-2609bbf67e59 
-[3]: https://arxiv.org/pdf/1809.00013.pdf
-[4]: https://en.wikipedia.org/wiki/Word2vec
-[5]: https://www.jmlr.org/papers/volume22/20-451/20-451.pdf 
-[6]: https://pythonot.github.io/quickstart.html#optimal-transport-and-wasserstein-distance
-[7]: https://en.wikipedia.org/wiki/Network_simplex_algorithm
+[^1]: https://kantorovich.org/post/ot_intro/ 
+[^2]: https://towardsdatascience.com/optimal-transport-a-hidden-gem-that-empowers-todays-machine-learning-2609bbf67e59 
+[^3]: https://arxiv.org/pdf/1809.00013.pdf
+[^4]: https://en.wikipedia.org/wiki/Word2vec
+[^5]: https://www.jmlr.org/papers/volume22/20-451/20-451.pdf 
+[^6]: https://pythonot.github.io/quickstart.html#optimal-transport-and-wasserstein-distance
+[^7]: https://en.wikipedia.org/wiki/Network_simplex_algorithm
