@@ -37,15 +37,15 @@
   />
 
   
-  <title>Graph coloring animations: Website - Math 441 portfolio</title>
+  <title>Greedy graph coloring animations and intuitions - Math 441 portfolio</title>
 
   
   <meta name="theme-color" />
   
-  <meta name="description" content=" Intro This is a statically rendered version of the flask script that can be found at this link.
+  <meta name="description" content="The source code for this entry can be found at https://github.com/rctcwyvrn/math441-learning-portfolio/blob/master/graph_coloring_animations_notes.md
+Intro This is a statically rendered version of the flask script that can be found at this link.
 Since this website is static I&#39;m unable to render the proper version here, which is able to create new graphs with a given number of edges and nodes upon request
-Notes on the what I discovered using these animations can be found here.
-largest_first random_sequential smallest_last independent_set connected_sequential_bfs connected_sequential_dfs " />
+Why? While looking at these graph coloring methods in classs I found that being able to see exactly the order that the greedy algorithms took nodes to color was helpful in understanding what exactly each algorithm was doing." />
   <meta
     name="author"
     content=""
@@ -98,11 +98,11 @@ largest_first random_sequential smallest_last independent_set connected_sequenti
   
   
   
-  <meta property="og:title" content="Graph coloring animations: Website" />
-<meta property="og:description" content=" Intro This is a statically rendered version of the flask script that can be found at this link.
+  <meta property="og:title" content="Greedy graph coloring animations and intuitions" />
+<meta property="og:description" content="The source code for this entry can be found at https://github.com/rctcwyvrn/math441-learning-portfolio/blob/master/graph_coloring_animations_notes.md
+Intro This is a statically rendered version of the flask script that can be found at this link.
 Since this website is static I&#39;m unable to render the proper version here, which is able to create new graphs with a given number of edges and nodes upon request
-Notes on the what I discovered using these animations can be found here.
-largest_first random_sequential smallest_last independent_set connected_sequential_bfs connected_sequential_dfs " />
+Why? While looking at these graph coloring methods in classs I found that being able to see exactly the order that the greedy algorithms took nodes to color was helpful in understanding what exactly each algorithm was doing." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://rctcwyvrn.github.io/math441-learning-portfolio/post/graph_coloring_animations/" /><meta property="article:section" content="post" />
 
@@ -110,21 +110,21 @@ largest_first random_sequential smallest_last independent_set connected_sequenti
 
 
   
-  <meta itemprop="name" content="Graph coloring animations: Website">
-<meta itemprop="description" content=" Intro This is a statically rendered version of the flask script that can be found at this link.
+  <meta itemprop="name" content="Greedy graph coloring animations and intuitions">
+<meta itemprop="description" content="The source code for this entry can be found at https://github.com/rctcwyvrn/math441-learning-portfolio/blob/master/graph_coloring_animations_notes.md
+Intro This is a statically rendered version of the flask script that can be found at this link.
 Since this website is static I&#39;m unable to render the proper version here, which is able to create new graphs with a given number of edges and nodes upon request
-Notes on the what I discovered using these animations can be found here.
-largest_first random_sequential smallest_last independent_set connected_sequential_bfs connected_sequential_dfs ">
+Why? While looking at these graph coloring methods in classs I found that being able to see exactly the order that the greedy algorithms took nodes to color was helpful in understanding what exactly each algorithm was doing.">
 
-<meta itemprop="wordCount" content="67">
+<meta itemprop="wordCount" content="804">
 <meta itemprop="keywords" content="" />
   
   <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Graph coloring animations: Website"/>
-<meta name="twitter:description" content=" Intro This is a statically rendered version of the flask script that can be found at this link.
+<meta name="twitter:title" content="Greedy graph coloring animations and intuitions"/>
+<meta name="twitter:description" content="The source code for this entry can be found at https://github.com/rctcwyvrn/math441-learning-portfolio/blob/master/graph_coloring_animations_notes.md
+Intro This is a statically rendered version of the flask script that can be found at this link.
 Since this website is static I&#39;m unable to render the proper version here, which is able to create new graphs with a given number of edges and nodes upon request
-Notes on the what I discovered using these animations can be found here.
-largest_first random_sequential smallest_last independent_set connected_sequential_bfs connected_sequential_dfs "/>
+Why? While looking at these graph coloring methods in classs I found that being able to see exactly the order that the greedy algorithms took nodes to color was helpful in understanding what exactly each algorithm was doing."/>
 
   
   
@@ -209,7 +209,7 @@ largest_first random_sequential smallest_last independent_set connected_sequenti
 
 <article>
   <header class="mb-20">
-    <h1 class="!my-0 pb-2.5">Graph coloring animations: Website</h1>
+    <h1 class="!my-0 pb-2.5">Greedy graph coloring animations and intuitions</h1>
 
     
     <div class="text-sm opacity-60">
@@ -225,42 +225,70 @@ largest_first random_sequential smallest_last independent_set connected_sequenti
       <meta name="viewport" content="width=device-width">
     </head>
     <body>
-        <h1>Intro</h1>
+        <p>The source code for this entry can be found at <a href="https://github.com/rctcwyvrn/math441-learning-portfolio/blob/master/graph_coloring_animations/">https://github.com/rctcwyvrn/math441-learning-portfolio/blob/master/graph_coloring_animations_notes.md</a></p>
+    <h1>Intro</h1>
         <p>This is a statically rendered version of the flask script that can be found at <a href="https://github.com/rctcwyvrn/math441-learning-portfolio/tree/master/graph_coloring_animations/graph_coloring_greedy_strategies.py">this link.</a></p>
         <p>Since this website is static I'm unable to render the proper version here, which is able to create new graphs with a given number of edges and nodes upon request</p>
-        <p>Notes on the what I discovered using these animations can be found <a href="/math441-learning-portfolio/post/graph_coloring_animations_notes">here</a>.</p>
-      
-        <h1>largest_first</h1>
+    <h1 id="why">Why?</h1>
+        <p>While looking at these graph coloring methods in classs I found that being able to see exactly the order that the greedy algorithms took nodes to color was helpful in understanding what exactly each algorithm was doing. So to help with this I made this animation generator, which is able to randomly generate graphs of a given size/edge count and perform different greedy algorithms side by side.</p>
+        <p>Using these animations I tried to figure out some intuition and reasoning behind each greedy algorithm.</p>
+        
+        <h1>Largest first</h1>
+        <p>As covered in class, color the nodes in order of number of neighbours, coloring the nodes with the most neighbours first</p>
         <video controls="" autoplay="" name="media">
             <source src="/math441-learning-portfolio/post/graph_coloring_animations/largest_first_animation.mp4?u=85749abb2d470eafeef9519351c43ac8" type="video/mp4">
         </video>
         <img src="/math441-learning-portfolio/post/graph_coloring_animations/largest_first_final.png?u=0f3c1b9f58469b490526e538718202df"/>
       
-        <h1>random_sequential</h1>
+        <h1>Random sequential</h1>
+        <blockquote>
+        <p>Returns a random permutation of the nodes of G as a list.</p>
+        </blockquote>
+        <p>Quite straightforward, it does a greedy coloring in a completely random order. Why would we want to consider this? First of all, it provides a good baseline to compare algorithms against. If they can’t outperform just randomly guessing a greedy order then they probably aren’t worth considering. Another thing to consider is the worst case performance of different greedy algorithms, some of these algorithms might be very fast in some cases but very slow in other cases. By having a purely random algorithm we have something to compare against to see how good/bad the best/worst case performance is.</p>
+
         <video controls="" autoplay="" name="media">
             <source src="/math441-learning-portfolio/post/graph_coloring_animations/random_sequential_animation.mp4?u=85749abb2d470eafeef9519351c43ac8" type="video/mp4">
         </video>
         <img src="/math441-learning-portfolio/post/graph_coloring_animations/random_sequential_final.png?u=0f3c1b9f58469b490526e538718202df"/>
-      
-        <h1>smallest_last</h1>
+
+        <h1>Smallest last</h1>
+        <p>We covered “largest first” in class, but what does “smallest last” mean? Is it just a backwards version of largest first?</p>
+        <blockquote>
+        <p>Returns a deque of the nodes of G, “smallest” last. Specifically, the degrees of each node are tracked in a bucket queue. From this, the node of minimum degree is repeatedly popped from the graph, updating its neighbors’ degrees.</p>
+        </blockquote>
+        <p>Kinda but not really. The intuitive way of thinking about smallest last would be “order all the nodes by degree, put the smallest degree node last”, but if you think about it this is identical to largest first so that wouldn’t really do anything. Smallest last actually finds the smallest node and then removes it from the graph, before then finding the next smallest node and removing it from the graph and so on. After removing all the nodes, they’re then colored in reverse of the order they were removed in.</p>
+        <p>So what does this accomplish? The intuition behind this method is that if you can color the graph with a node removed, then if the node you removed as few conflicts then you should be able to color the graph after you add that node back. So by removing the ones with the smaller number of conflicts first, it’s more likely that they’ll be colorable when it’s their turn to be colored.</p>
         <video controls="" autoplay="" name="media">
             <source src="/math441-learning-portfolio/post/graph_coloring_animations/smallest_last_animation.mp4?u=85749abb2d470eafeef9519351c43ac8" type="video/mp4">
         </video>
         <img src="/math441-learning-portfolio/post/graph_coloring_animations/smallest_last_final.png?u=0f3c1b9f58469b490526e538718202df"/>
-      
-        <h1>independent_set</h1>
+
+        <h1>Independent set</h1>
+        <blockquote>
+        <p>This algorithm repeatedly finds and removes a maximal independent set, assigning each node in the set an unused color.</p>
+        </blockquote>
+        <p>First off what is an independent set? An independent set is a set of nodes in a graph that all share no edges with each other, so they’re completely disconnected.</p>
+        <p>What does this greedy method do then? It finds as many nodes as possible that aren’t connected and gives them all the same color. It then removes them all and repeats the process. We see this in the animations, while the other algorithms color one at a time with different colors we see that independent set colors a bunch of nodes one color, then another bunch of nodes another color and so on. Unlike the other greedy methods that return the order of iteration through the nodes, independent set has a very different way of coloring the nodes.</p>
+        <p>Intuitively this method makes a lot of sense, find as many nodes as possible that you can color with the same color and color them all. Then abandon that color entirely and continue. Since you never use that color again and you know the set is an independent set, you don’t need to worry about any conflicts occuring.</p>    
         <video controls="" autoplay="" name="media">
             <source src="/math441-learning-portfolio/post/graph_coloring_animations/independent_set_animation.mp4?u=85749abb2d470eafeef9519351c43ac8" type="video/mp4">
         </video>
         <img src="/math441-learning-portfolio/post/graph_coloring_animations/independent_set_final.png?u=0f3c1b9f58469b490526e538718202df"/>
-      
-        <h1>connected_sequential_bfs</h1>
+
+        <h1>Connected sequential traversals</h1>
+        <p>Both of the next two algorithms are based on the same idea</p>
+        <blockquote>
+        <p>Returns an iterable over nodes in G in the order given by a breadth-first or depth-first traversal.</p>
+        </blockquote>
+        <p>Since a greedy graph coloring algorithm is just a choice of the order that we walk through the nodes, these two are pretty intuitive methods. While they might not have any special characteristics that make them good for graph coloring, much like random sequential they probably provide a good baseline to compare other greedy algorithms against.</p>
+
+        <h2>Connected sequential BFS</h2>
         <video controls="" autoplay="" name="media">
             <source src="/math441-learning-portfolio/post/graph_coloring_animations/connected_sequential_bfs_animation.mp4?u=85749abb2d470eafeef9519351c43ac8" type="video/mp4">
         </video>
         <img src="/math441-learning-portfolio/post/graph_coloring_animations/connected_sequential_bfs_final.png?u=0f3c1b9f58469b490526e538718202df"/>
       
-        <h1>connected_sequential_dfs</h1>
+        <h2>Connected sequential DFS</h2>
         <video controls="" autoplay="" name="media">
             <source src="/math441-learning-portfolio/post/graph_coloring_animations/connected_sequential_dfs_animation.mp4?u=85749abb2d470eafeef9519351c43ac8" type="video/mp4">
         </video>
@@ -279,8 +307,8 @@ largest_first random_sequential smallest_last independent_set connected_sequenti
     
     <a
       class="flex w-1/2 items-center p-6 pr-3 no-underline"
-      href="https://rctcwyvrn.github.io/math441-learning-portfolio/post/graph_coloring_animations_notes/"
-      ><span class="mr-1.5">←</span><span>Graph coloring animations: Notes</span></a
+      href="https://rctcwyvrn.github.io/math441-learning-portfolio/post/graph_coloring_and_register_allocation/"
+      ><span class="mr-1.5">←</span><span>Graph coloring and register allocation</span></a
     >
     
     
