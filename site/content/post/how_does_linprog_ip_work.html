@@ -1,5 +1,5 @@
 +++
-title = "Solving mixed-integer linear programming"
+title = "Solving mixed-integer linear programming problems"
 +++
 <!DOCTYPE html>
 <html>
@@ -14268,44 +14268,37 @@ a.anchor-link {
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Over the course of the term I had a nagging thought in the back of my mind with the usage of <code>linprog</code> and using it to solve integer programming problems arising from NP-hard problems.</p>
+
+</div>
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h2 id="What's-wrong-with-linprog?">What's wrong with linprog?<a class="anchor-link" href="#What's-wrong-with-linprog?">&#182;</a></h2><p>During class when we want to solve integer programming problems we've used the same <code>scipy</code> <code>linprog</code> solver that we used for linear programming, but just with the <code>integrality</code> parameter set. In class we've claimed that this produces the "optimal" solution for these integer programming problems and we've seen that integer programming is much more efficient than using a bruteforce combinatorial method. Some of the examples of problems we've solved using this method are NP-complete, problems that are currently unknown to be solvable in polynomial time.</p>
-<p>While reading the register allocation paper they mention that the ip solver finds the 'optimal graph coloring', which seems weired to me. do ip solvers actualy solve ip problems optimally???</p>
+<p>While reading the register allocation paper they mention that the IP solver finds the 'optimal graph coloring', which seemed weird to me. do IP solvers actualy solve ip problems optimally???</p>
 <p>This seems to present us with a contradiction</p>
 <ul>
 <li>NP-complete problems like sudoku can be represented using an IP problem</li>
 <li>IP problems can be solved optimally and efficiently using <code>linprog</code>'s integer programming solver</li>
 <li>It is currently unknown if NP-complete problems can be efficiently solved</li>
 </ul>
-<p>So I believe there's some details that we glossed over when using <code>linprog</code> in class. Obviously <code>linprog</code> doesn't imply P=NP so we must be missing something here</p>
+<p>So I believe there's some details that we glossed over when using <code>linprog</code> in class. Obviously <code>linprog</code> doesn't imply $P=NP$ so we must be missing something here</p>
 <p>Possibility #1: <code>linprog</code> fails to find the optimal solution in all cases. Maybe it only solves IP problems optimally <em>most</em> of the time</p>
 <p>Possibility #2: <code>linprog</code> explodes in runtime in some edge cases. Maybe it only has a polynomial average runtime, but an exponential worst case runtime</p>
 <p>It seems likely that the real reason is some combination of the two, so let's find out!</p>
-<h2 id="Mixed-integer-linear-programming-(MILP)">Mixed integer linear programming (MILP)<a class="anchor-link" href="#Mixed-integer-linear-programming-(MILP)">&#182;</a></h2><p>Mixed-integer linear programming problems are things we've encountered over and over while analyzing problems in class so I don't need to explain why they're important.</p>
-<p>But how do solvers account for the fact that some of the parameters must be integers? Linear programming typically solves for values over the reals. How does it handle binary values like what we've seen in many IP decision variables? You can't just round to the nearest integer if you have a value between 0 and 1.</p>
-<p>linprog is a wrapper around highs <a href="https://highs.dev/">https://highs.dev/</a></p>
-<p>how does highs solve MIP problems? <a href="https://en.wikipedia.org/wiki/HiGHS_optimization_solver#Mixed_integer_programming">https://en.wikipedia.org/wiki/HiGHS_optimization_solver#Mixed_integer_programming</a> branch-and-cut solver?</p>
-<p>Looking up branch and cut leads us to this paper, which states <a href="https://www.sciencedirect.com/science/article/abs/pii/S0167819120301071">https://www.sciencedirect.com/science/article/abs/pii/S0167819120301071</a>  "However, finding the optimal answer of ILP models is an NP-Hard problem and remains a computational challenge. "</p>
-<p>Aha! it isn't optimal! so there must be cases where these algorithms fail. That answers the big question I had asked, these algorithms are just approximations and will sometimes not find the optimal solution.</p>
-<p>So what exactly are these algorithms, how do they work and why exactly do they fail?</p>
-<h2 id="Branch-and-cut">Branch and cut<a class="anchor-link" href="#Branch-and-cut">&#182;</a></h2><p>The wikipedia article for branch and cut provides an outline for how the algorithm operates. The core idea is taht we want to generate a tree of possible solutions that contains the entire solution space, with the property that the children of a node should be related to their parent in some way. Then because of the above property, we can delete a node and ignore all if it's children if we find that the node is not as good as our current solution. So we want to branch (build up these related subproblems) and bound (delete entire branches of the tree that are related to a bad solution).</p>
-<p>So that's the general idea, but the big question is how do we do those branch and bound operations in a way that actually makes sense?</p>
-<p>The core idea behind it lies in the linear relaxation of an integer programming problem. When you compute the optimal value of a linear relaxation of an integer programming problem, that represents an upper bound on all feasible solutions to that problem, including the integral optimal solution that we want. (assuming this is a maximization problem)</p>
-<p>Why is this useful? Well we can take the feasible solution space and split it down the middle to produce two spaces that we can search for an optimal solution in. Running the linearly relaxed problem on the two smaller feasible spaces will give us an upper bound on both of those spaces based on the argument in the last paragraph.</p>
-<p>What do we do with these upper bounds? Well if we already have an integral solution with a better value than one of those upper bounds, then we know that any integral solution in that space must be not as good, so we can simply ignore it!</p>
-<h3 id="Cutting-planes">Cutting planes<a class="anchor-link" href="#Cutting-planes">&#182;</a></h3><p><a href="http://homes.di.unimi.it/righini/Didattica/ComplementiRicercaOperativa/MaterialeCRO/2005%20Revival%20of%20Gomory%20cuts.pdf">http://homes.di.unimi.it/righini/Didattica/ComplementiRicercaOperativa/MaterialeCRO/2005%20Revival%20of%20Gomory%20cuts.pdf</a></p>
-<p>Branch and cut can be further improved by considering cutting planes, which is a way if iteratively refining a non-integral solution into an integral one. The idea is pretty simple, a non-integral solution must either lie inside or outside of the convex hull representing the integral solution space. There's a theorem that states that for an optimal non-integral solution that lies on a corner, then there exists a hyperplane that lies between that solution and the convex hull for the integral solution space. This hyperplane can be used as an inequality, which is called a <em>cut</em>, more specifically Gomory's cut.</p>
-<p>What does this cut accomplish? Intuitively this adds a "wall" that pushes the relaxed problem towards the convex hull. We can compute another optimal value after adding this wall and then add another cut, adding another "wall". Doing this over and over will push the non-integral solution to the nearest point on the convex hull, which hopefully corresponds to the optimal integral solution.</p>
-<h3 id="Problems-with-branch-and-cut">Problems with branch and cut<a class="anchor-link" href="#Problems-with-branch-and-cut">&#182;</a></h3><p>Ignoring cutting planes for a moment, it appears that branch and bound is an algorithm that will always produce the optimal solution.</p>
-<ol>
-<li>The upper bound property of the linear relaxation is obvious since it's the optimal value</li>
-<li>Since the subproblems are direct subsets of the original problem, once we have the true bound it's always true that we can ignore that subproblem and any of it's child subproblems.</li>
-</ol>
-<p>Based on these two facts it appears that branch and bound will always successfully find the optimal value, so what's going on here? Does this show $P=NP$??</p>
-<p>The answer lies in algorithmnic analysis of branch and bound. What happens if branch and bound is never able to remove any subproblems? In that case then it would have to compute the linear relaxation on every single subproblem, never getting an integral solution until the bounds themselves were all integers. The tree in that case would have exponential size in the number of parameters, making branch and bound not a polynomial time algorithm in that case.</p>
-<p>So basically, my guess is that there's some degenrate cases for each branch and bound variant that will make it have to compute the entire tree and take exponential time, so since computational complexity is all about worst case runtime, branch and bound is not polytime. However as I notcied after implementing it myself, it is very fast in most cases, making it a usually polynomial time algorithm that returns exact results! Very cool!</p>
-<h1 id="Conclusion">Conclusion<a class="anchor-link" href="#Conclusion">&#182;</a></h1><p>So what did we learn?</p>
-<p>Integer programming is still a NP-hard problem which takes exponential time in the worst case to run, but there exist algorithms that can compute the optimal solution fairly quickly in most cases. Surprisingly the degenerate cases that cause the worst case runtime to be exponential are quite rare, and branch and bound is able to compute the optimal integer programming solution quickly in the vast majority of problems. This is an interesting dichotomy because we know that many computationally difficult programs can be reduced to integer programming, yet integer programming solvers are actually quite efficient and can produce optimal values pretty easily.</p>
-<p>I had expected the linear relaxation based solvers to have the opposite problem, always fast but sometimes not being able to find the optimal solution. My intuition was that linear relaxation would give a non-integral solution that you would somehow try to round to an integral solution, and this would be a fast process that would sometimes result in rounding to the wrong answer. In a way I was sorta right (this is kinda the basis behind Gomory's cut and it's iterative process) and that sort of algorithm would work, but be very impractical. A value that gets rounded to 1 instead of 0 can mean a drastically different (or totally infeasible) solution after all, so it makes sense that what I had thought was wrong. My intuition was that an algorithm that used linear relaxation could not possibly find the optimal integral solution without resorting to iterating through all the solutions, but after learning about how branch and bound works it all seems so simple and obvious in hindsight.</p>
+<h2 id="Mixed-integer-linear-programming-(MILP)">Mixed integer linear programming (MILP)<a class="anchor-link" href="#Mixed-integer-linear-programming-(MILP)">&#182;</a></h2><p>We've seen that mixed integer linear programming solvers are based on linear programming solvers, so how do solvers account for the fact that some of the parameters must be integers? Linear programming typically solves for values over the reals. How does it handle binary values like what we've seen in many IP decision variables? You can't just round to the nearest integer if you have a value between 0 and 1 because those two mean very different things</p>
+<h3 id="Linprog">Linprog<a class="anchor-link" href="#Linprog">&#182;</a></h3><p>Looking at the documentation we see that <code>linprog</code> is a wrapper around the <a href="https://highs.dev/">HiGHS library</a>. Taking a peek at the <a href="https://en.wikipedia.org/wiki/HiGHS_optimization_solver#Mixed_integer_programming">HiGHS wikipedia page</a> it mentions that it uses a "branch-and-cut" solver for mixed integer programming. Looking up "branch and cut" leads us to <a href="https://www.sciencedirect.com/science/article/abs/pii/S0167819120301071">this paper</a>, which states: "However, finding the optimal answer of ILP models is an NP-Hard problem and remains a computational challenge."</p>
+<p>Aha! So there is still something about these IP solvers that fails, so what exactly are these algorithms, how do they work and why exactly do they fail?</p>
+<h2 id="Branch-and-cut">Branch and cut<a class="anchor-link" href="#Branch-and-cut">&#182;</a></h2><p>The wikipedia article for branch and cut provides an outline for how the algorithm operates. The core idea is that we want to generate a tree of possible solutions that contains the entire solution space, with the property that the children of a node should be related to their parent in some way. Then because of the above property, we can delete a node and ignore all if it's children if we find that the node is not as good as our current solution. So we want to branch (build up these related subproblems) and bound (delete entire branches of the tree that are related to a bad solution).</p>
+<p>So that's the general idea, but the big question is how do we do those "branch" and "bound" operations in a way that actually makes sense?</p>
+<p>The core idea behind it lies in the linear relaxation of an integer programming problem. The linear relaxation of an IP problem is simply when you remove the integrality constraints and solve the problem over the reals instead. When you compute the optimal value of a linear relaxation of an integer programming problem, that represents a bound on all feasible solutions to that problem, including the integral optimal solution that we want. This is because the real solution space is a superset of all feasible integer solutions, so the optimal real solution must be at least as good as the best integer solution.</p>
+<p>Why is this useful? Well we can take the feasible solution space and split it down the middle to produce two spaces that we can search for an optimal solution in. Running the linearly relaxed problem on the two smaller feasible spaces will give us an upper bound on both of those spaces based on the argument in the last paragraph. What do we do with these upper bounds? Well if we already have an integral solution with a better value than one of those upper bounds, then we know that any integral solution in that space must be not as good, so we can simply ignore it! Since we divided the feasible solution space in half, if we repeat this process we should eventually remove everything and be done.</p>
+
+</div>
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h2 id="Implementation">Implementation<a class="anchor-link" href="#Implementation">&#182;</a></h2><p>Let's implement a basic branch and bound algorithm!</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
@@ -14340,18 +14333,23 @@ a.anchor-link {
         <span class="n">frac</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="nb">round</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="n">dist_from_point_5</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">frac</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">))</span>
 
-    
+    <span class="c1"># the &quot;most infeasible&quot; heuristic chooses to branch on the variable that is closest to .5 (ie: the &quot;least integral&quot; value)</span>
     <span class="n">choice</span> <span class="o">=</span> <span class="n">dist_from_point_5</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">dist_from_point_5</span><span class="p">))</span>
 
+    <span class="c1"># split the solution space in half by forcing the value to either be </span>
+    <span class="c1"># - less than the floor of the current value</span>
+    <span class="c1"># - greater than the ceiling of the current value</span>
+
+    <span class="c1"># Ex: so if 0 &lt;= x &lt;= 3 and x = 1.5 then the new bounds would become</span>
+    <span class="c1"># 0 &lt;= x &lt;= 1 and 2 &lt;= x &lt;= 3</span>
+    <span class="c1"># This pushes the least integral value towards one of the two nearest integers</span>
+    
     <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="n">choice</span><span class="p">]</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">solution</span><span class="p">[</span><span class="n">choice</span><span class="p">]</span>
     <span class="n">bounds_A</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">bounds</span><span class="p">)</span> 
     <span class="n">bounds_A</span><span class="p">[</span><span class="n">choice</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">lb</span><span class="p">,</span> <span class="n">math</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
     <span class="n">bounds_B</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">bounds</span><span class="p">)</span>
     <span class="n">bounds_B</span><span class="p">[</span><span class="n">choice</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">ub</span><span class="p">)</span>
-
-    <span class="c1"># print(solution)</span>
-    <span class="c1"># print(f&quot;Choosing x_{choice} | x_{choice} = {solution[choice]} | bounds = {bounds[choice]} | new bounds = {bounds_A[choice]}, {bounds_B[choice]}&quot;)</span>
 
     <span class="k">return</span> <span class="p">[(</span><span class="n">c</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">bounds_A</span><span class="p">),</span> <span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">bounds_B</span><span class="p">)]</span>
 
@@ -14362,24 +14360,32 @@ a.anchor-link {
     <span class="n">best_integral_val</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">active_problems</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">active_problems</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">c</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">bounds</span><span class="p">])</span>
+
     <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">active_problems</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="c1"># Use a stack for depth first search of the tree</span>
         <span class="n">c</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">bounds</span> <span class="o">=</span> <span class="n">active_problems</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
         <span class="n">relaxed_result</span> <span class="o">=</span> <span class="n">linprog</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">)</span>
+
         <span class="k">if</span> <span class="ow">not</span> <span class="n">relaxed_result</span><span class="o">.</span><span class="n">success</span><span class="p">:</span>
             <span class="k">continue</span>
 
         <span class="k">if</span> <span class="n">best_integral_val</span> <span class="o">!=</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">relaxed_result</span><span class="o">.</span><span class="n">fun</span> <span class="o">&gt;=</span> <span class="n">best_integral_val</span><span class="p">:</span>
+            <span class="c1"># ignore if this subproblem is not as good as our best integral solution</span>
             <span class="k">continue</span>
         
         <span class="k">if</span> <span class="nb">all</span><span class="p">([</span><span class="n">f</span><span class="o">.</span><span class="n">is_integer</span><span class="p">()</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">relaxed_result</span><span class="o">.</span><span class="n">x</span><span class="p">]):</span>
+            <span class="c1"># update our best integral solution if the relaxed solution happens to be entirely integral</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> | Solution is integral | val = </span><span class="si">{</span><span class="n">relaxed_result</span><span class="o">.</span><span class="n">fun</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="n">best_integral_val</span> <span class="o">=</span> <span class="n">relaxed_result</span><span class="o">.</span><span class="n">fun</span>
             <span class="n">best_integral_solution</span> <span class="o">=</span> <span class="n">relaxed_result</span><span class="o">.</span><span class="n">x</span>
         
+        <span class="c1"># append on the new subproblems</span>
         <span class="k">for</span> <span class="n">subproblem</span> <span class="ow">in</span> <span class="n">branch_on</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">bounds</span><span class="p">,</span> <span class="n">relaxed_result</span><span class="o">.</span><span class="n">x</span><span class="p">):</span>
             <span class="n">active_problems</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">subproblem</span><span class="p">)</span>
+    
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Finished after </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> iterations&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">best_integral_val</span><span class="p">,</span> <span class="n">best_integral_solution</span><span class="p">)</span>
 </pre></div>
@@ -14389,6 +14395,12 @@ a.anchor-link {
 </div>
 </div>
 
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h2 id="Example-problem">Example problem<a class="anchor-link" href="#Example-problem">&#182;</a></h2><p>Let's run the set covering location problem that I looked at for my group project this term. This set of utility functions will generate points and the corresponding problem matrix</p>
+
+</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
@@ -14470,11 +14482,7 @@ a.anchor-link {
                         <span class="k">continue</span>
                     <span class="n">p</span> <span class="o">=</span> <span class="n">y_dist</span><span class="o">.</span><span class="n">destination</span><span class="p">(</span><span class="n">x_dist</span><span class="o">.</span><span class="n">destination</span><span class="p">(</span><span class="n">center</span><span class="p">,</span> <span class="n">bearing</span><span class="o">=</span><span class="n">x_dir</span><span class="p">),</span> <span class="n">bearing</span><span class="o">=</span><span class="n">y_dir</span><span class="p">)</span>
                     <span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">p</span><span class="o">.</span><span class="n">latitude</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">longitude</span><span class="p">))</span>
-            <span class="c1"># points.append((center[0] - y*unit, center[1] - x*unit))</span>
-            <span class="c1"># points.append((center[0] - y*unit, center[1] + x*unit))</span>
-            <span class="c1"># points.append((center[0] + y*unit, center[1] - x*unit))</span>
-            <span class="c1"># points.append((center[0] + y*unit, center[1] + x*unit))</span>
-    <span class="c1"># print(points[:10])</span>
+
     <span class="n">points</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="n">lat_min</span> <span class="o">&lt;=</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">lat_max</span> <span class="ow">and</span> <span class="n">long_min</span> <span class="o">&lt;=</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">long_max</span><span class="p">,</span> <span class="n">points</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">points</span>
 
@@ -14497,6 +14505,12 @@ a.anchor-link {
 </div>
 </div>
 
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>And here's the solve function that calls our custom branch and bound solver</p>
+
+</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
@@ -14521,6 +14535,12 @@ a.anchor-link {
 </div>
 </div>
 
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>First let's look at a small problem with just 9 points</p>
+
+</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
@@ -14614,6 +14634,13 @@ Finished after 3 iterations
 
 </div>
 
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>It was able to find the optimal solution, and very quickly as well!</p>
+<p>Let's try a larger problem</p>
+
+</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
@@ -14685,6 +14712,13 @@ Finished after 17 iterations
 
 </div>
 
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Again it finds the optimal solution!</p>
+<p>What if we try the full problem? The one where we consider the set covering across all of Vancouver?</p>
+
+</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
@@ -14756,6 +14790,12 @@ Finished after 427 iterations
 
 </div>
 
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Wow that was surprisingly fast, and again it found the optimal solution!</p>
+
+</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
@@ -14807,6 +14847,12 @@ Finished after 427 iterations
 
 </div>
 
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>What about a massive problem? One much larger than the one we looked at for our paper?</p>
+
+</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
@@ -14866,6 +14912,34 @@ Finished after 7629 iterations
 
 </div>
 
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Even still it manages to solve it, even if it took awhile longer this time. I was really surprised to see my naive implementation of the branch and bound algorithm managed to be able to solve some non-trivially sized problems. The code is highly unoptimized and lacks some of the optimizations that the more advanced solvers implement but it was able to solve a realistically sized problem!</p>
+<p>What are some of those optimizations we could implement to make this algorithm faster though?</p>
+
+</div>
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h3 id="Cutting-planes">Cutting planes<a class="anchor-link" href="#Cutting-planes">&#182;</a></h3><p><a href="http://homes.di.unimi.it/righini/Didattica/ComplementiRicercaOperativa/MaterialeCRO/2005%20Revival%20of%20Gomory%20cuts.pdf">http://homes.di.unimi.it/righini/Didattica/ComplementiRicercaOperativa/MaterialeCRO/2005%20Revival%20of%20Gomory%20cuts.pdf</a></p>
+<p>Branch and bound can be further improved by considering cutting planes, which is a way of iteratively refining a non-integral solution into an integral one. The idea is pretty simple, a non-integral solution must either lie inside or outside of the convex hull representing the integral solution space. There's a theorem that states that for an optimal non-integral solution that lies on a corner, then there exists a hyperplane that lies between that solution and the convex hull for the integral solution space. This hyperplane can be used as an inequality, which is called a <em>cut</em>, more specifically Gomory's cut.</p>
+<p>What does this cut accomplish? Intuitively this adds a "wall" that pushes the relaxed problem towards the convex hull. We can compute another optimal value after adding this wall and then add another cut, adding another "wall". Doing this over and over will push the non-integral solution to the nearest point on the convex hull, which hopefully corresponds to the optimal integral solution.</p>
+<h3 id="Problems-with-branch-and-cut">Problems with branch and cut<a class="anchor-link" href="#Problems-with-branch-and-cut">&#182;</a></h3><p>Ignoring cutting planes for a moment, it appears that branch and bound is an algorithm that will always produce the optimal solution.</p>
+<ol>
+<li>The upper bound property of the linear relaxation can be proved to be always true</li>
+<li>Since the branching method will create subproblems that are direct subsets of the original problem, once we have the bound we can safely ignore that subproblem and any of it's child subproblems.</li>
+</ol>
+<p>Based on these two facts it appears that branch and bound will always successfully find the optimal value, so what's going on here? Does this show $P=NP$??</p>
+<p>Well no, this means that possibility #1 that we considered earlier is not true, and that its in fact possibility #2, the guess that IP solvers have poor worst case runtimes. What happens if branch and bound is never able to remove any subproblems? In that case then it would have to compute the linear relaxation on every single subproblem, never getting an integral solution until the bounds themselves were all integers. The tree in that case would have exponential size in the number of parameters, making branch and bound run in exponential time as well.</p>
+<p>So basically, my guess is that there's some degenrate cases for each variant of the branch and bound algorithm that will make it have to compute the entire tree and take exponential time, so since computational complexity is all about worst case runtime, branch and bound is not polytime. However something I noticed after implementing it myself is that it's very fast in most cases, making it a usually polynomial time algorithm that returns exact results! Very cool!</p>
+<h1 id="Conclusion">Conclusion<a class="anchor-link" href="#Conclusion">&#182;</a></h1><p>So what did we learn?</p>
+<p>Integer programming is still a NP-hard problem which takes exponential time in the worst case to run, but there exist algorithms that can compute the optimal solution fairly quickly in most cases. Surprisingly the degenerate cases that cause the worst case runtime to be exponential are quite rare, and branch and bound is able to compute the optimal integer programming solution quickly in the vast majority of problems. This is an interesting dichotomy because we know that many computationally difficult programs can be reduced to integer programming, yet integer programming solvers are actually quite efficient and can produce optimal values pretty easily.</p>
+<p>I had expected the linear relaxation based solvers to have the opposite problem, always fast but sometimes not being able to find the optimal solution. My intuition was that linear relaxation would give a non-integral solution that you would somehow try to round to an integral solution, and this would be a fast process that would sometimes result in rounding to the wrong answer. In a way I was sorta right (this is kinda the basis behind Gomory's cut and it's iterative process) and that sort of algorithm would work, but be very impractical. A value that gets rounded to 1 instead of 0 can mean a drastically different (or totally infeasible) solution after all, so it makes sense that what I had thought was wrong. My intuition was that an algorithm that used linear relaxation could not possibly find the optimal integral solution without resorting to iterating through all the solutions, but after learning about how branch and bound works it all seems so simple and obvious in hindsight.</p>
+<p>One other question that had been floating around my head throughout the term was the usage of NP-hard problems in cryptography. Cryptography often has a need for computationally infeasible problems, so do NP-hard problems ever make an appearance there? Does the fact that the worst case runtime is always bad make these problems usable or do these "usually polynomial average runtime" IP solvers affect the ability to use NP-hard problems?</p>
+<p>It turns out that there has been attempts to use NP-hard problems in cryptography, namely the Merkle-Hellman Knapsack cryptosystem which you can read about <a href="https://rctcwyvrn.github.io/math441-learning-portfolio/post/cryptography_and_lattices/">here</a></p>
+
+</div>
 </div>
 </body>
 

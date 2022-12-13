@@ -28,7 +28,7 @@ rm cryptography_and_lattices.html
 
 jupyter nbconvert --to html how_does_linprog_ip_work.ipynb
 echo "+++" > site/content/post/how_does_linprog_ip_work.html
-echo "title = \"Solving mixed-integer linear programming\"" >> site/content/post/how_does_linprog_ip_work.html
+echo "title = \"Solving mixed-integer linear programming problems\"" >> site/content/post/how_does_linprog_ip_work.html
 echo "+++" >> site/content/post/how_does_linprog_ip_work.html
 cat how_does_linprog_ip_work.html >> site/content/post/how_does_linprog_ip_work.html
 python patch.py site/content/post/how_does_linprog_ip_work.html
@@ -45,4 +45,4 @@ rm smaller_network_matrix_tests.html
 # copy over the static animations
 mkdir site/content/post/graph_coloring_animations/
 cp graph_coloring_animations/static/* site/content/post/graph_coloring_animations/
-cp graph_coloring_animations_notes.md site/content/post/
+# cp graph_coloring_animations_notes.md site/content/post/

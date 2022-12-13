@@ -14268,8 +14268,8 @@ a.anchor-link {
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>In 1976 Whitfield Diffie and Martin Hellman developed what would become a key concept in modern telecommunications, the public key cryptosystem. In a paper titled "New directions in cryptography" they developed the first public key exchange and theorized what would eventually become public key cryptography but with one key part missing. Diffie and Hellman built their model for a public key cryptosystem with a theoretical "one way trapdoor function". A function that could be easily computed when given some secret information, but computationally infeasible to compute without. For many years after their seminal paper, cryptographers worked to develop this trapdoor function in reality.</p>
-<p>In the theory of computational complexity, one of the most well studied areas of problems are NP problems, problems categorized by the ability to verify a correct answer in polynomial time. Many well known NP problems also lack fast polynomial time algorithms to solve, leading to many cryptographers attempting to build the aforementioned trapdoor function from NP problems. In theory this would work, NP problems are easily verifiable and yet lack efficient algorithms to solve from scratch.</p>
+<p>In 1976 Whitfield Diffie and Martin Hellman developed what would become a key concept in modern telecommunications, the public key cryptosystem. In a paper titled "New directions in cryptography" <a href="https://ee.stanford.edu/~hellman/publications/24.pdf">https://ee.stanford.edu/~hellman/publications/24.pdf</a> they developed the first public key exchange and theorized what would eventually become public key cryptography but with one key part missing. Diffie and Hellman built their model for a public key cryptosystem with a theoretical "one way trapdoor function". A function that could be easily computed when given some secret information, but computationally infeasible to compute without. For many years after their seminal paper, cryptographers worked to develop this trapdoor function in reality.</p>
+<p>In the theory of computational complexity, one of the most well studied areas of problems are NP problems, problems categorized by the ability to verify a correct answer in polynomial time. Many well known NP problems also lack fast polynomial time algorithms to solve, leading to many cryptographers attempting to build the aforementioned trapdoor function from NP problems. In theory this would work since NP problems are easily verifiable and yet lack efficient algorithms to solve from scratch.</p>
 <p>In 1978 Ralph Merkle and Martin Hellman developed one of the earliest attempts at a public key cryptosystem, one that used a variation of the knapsack problem as its one way trapdoor function.</p>
 <h2 id="Background:-Public-key-cryptography">Background: Public key cryptography<a class="anchor-link" href="#Background:-Public-key-cryptography">&#182;</a></h2><p>Public key cryptography solves the problem of secure communication without a previously shared key. For example, if a user wants to connect to a server for the first time, how can they ensure that their connection is secure? Once they establish an initial secure connection they can share a key and proceed, but how should this initial encryption be made? The model developed by Diffie and Hellman uses the idea of a public and a private key pair.</p>
 <p>The theorized keys would have the following properties</p>
@@ -14279,24 +14279,24 @@ a.anchor-link {
 </ol>
 <p>So the server that you'd like to connect to can generate this pair of keys and provide the public key out to the world. To send a secure message you would take that public key, encrypt your message, and send it to the server knowing that only the server can decrypt it, since only it has the private key.</p>
 <p>The question of how to develop this encryption and key generation was the one proposed by Diffie and Hellman with their one way trapdoor, and the one that Merkle and Hellman attempted to answer.</p>
-<h2 id="The-Merkle-Hellman-knapsack-cryptosystem">The Merkle-Hellman knapsack cryptosystem<a class="anchor-link" href="#The-Merkle-Hellman-knapsack-cryptosystem">&#182;</a></h2><p>As we talked about in class, the knapsack problem is where given a number of items with value and weights and a backpack of limited carrying capacity, decide how many of each item should be taken to maximize value. The subset sum problem is a special case of this problem, where given a multiset of integers and a target sum, decide whether or not there exists a subset of the given integers that sums to the target sum. Since both the knapsack problem and special cases of the subset sum problem are known to be NP-complete it was theorized that it would be a good candidate for a trapdoor function.</p>
+<h2 id="The-Merkle-Hellman-knapsack-cryptosystem">The Merkle-Hellman knapsack cryptosystem<a class="anchor-link" href="#The-Merkle-Hellman-knapsack-cryptosystem">&#182;</a></h2><p>As we talked about in class, in the knapsack problem you're given a number of items with value and weights, and a backpack of limited carrying capacity. Using that information you have to decide how many of each item should be taken to maximize value. The subset sum problem is a special case of this problem, where given a multiset of integers and a target sum, you have to decide whether or not there exists a subset of the given integers that sums to the target sum. Since both the knapsack problem and special cases of the subset sum problem are known to be NP-complete it was theorized that it would be a good candidate for a trapdoor function.</p>
 <p>The big picture idea of the Merkle-Hellman system is this</p>
 <ol>
 <li>Create a special set of weights $B$ and release this as the public key</li>
 <li>To encrypt a message, use the weights and the message to create a sum $c$</li>
 <li>To decrypt the message, one would have to solve the subset sum problem to find which values of $B$ sum to $c$, which was thought to be computationally infeasible</li>
-<li>However, due to how the special set of weights $B$ is generated, the subset sum problem is easy to solve for the creator of the keys</li>
+<li>However, due to how the special set of weights $B$ is generated, the subset sum problem is easy to solve for the creator of the keys, so they're able to decrypt the message</li>
 </ol>
 <p>So by making each message into an instance of the general subset sum problem, it appears that since there is no efficient algorithm for subset sum, there is no way to decrypt the message. This raises the question though, how does the server decrypt the message then?</p>
 <p>The answer lies in the generation of the keys.</p>
 <p>Firstly, it is known that there is an efficient solution for the subset sum problem if the weights are <em>superincreasing</em>. A sequence $W$ is superincreasing if for each item in the sequence, it is greater than or equal to the sum of all prior elements, $\forall_i \sum_{j\lt i} w_j \leq w_i$. The reason why is pretty clear when we look at a greedy algorithm for this case. Consider a sequence of weights and the desired sum $c$</p>
 <p>Consider the largest element in $W$ that is less than $c$, $w_k$</p>
 
-<pre><code>w_0 w_1 w_2 ... w_k   w_k+1
+<pre><code>w_0 w_1 w_2 ... w_k   w_k+1 ...
                     ^
                     |
                     c</code></pre>
-<p>$w_k$ must be greater than the sum of all elements before it, so the sum of all elements before $w_k$ are less than $c$. Therefore since all values are positive integers, $w_k$ must be included in a subset that sums to $c$ if it exists. So a greedy algorithm can take $w_k$, and then recursively solve for $c' = c - w_k$, giving us a polynomial time algorithm for finding the desired subset.</p>
+<p>$w_k$ must be greater than the sum of all elements before it, so the sum of all elements before $w_k$ is less than $c$. Therefore since all values are positive integers, $w_k$ must be included in a subset that sums to $c$ if it exists. So a greedy algorithm can take $w_k$, and then recursively solve for $c' = c - w_k$, giving us a polynomial time algorithm for finding the desired subset.</p>
 <p>So from this you might be able to guess the idea behind the Merkle-Hellman cryptosystem</p>
 <ol>
 <li>Create a set of superincreasing weights $W$</li>
@@ -14316,18 +14316,18 @@ a.anchor-link {
 <ol>
 <li>Choose a random integer $q \gt \sum_i w_i$</li>
 <li>Choose a random integer $r$ such that $q$ and $r$ are co-prime</li>
-<li>Compute $b_i = rw_i mod q$ for all $i$, the public key sequence is then $B = (b_1, b_2 ... b_n)$</li>
+<li>Compute $b_i = rw_i \mod q$ for all $i$, the public key sequence is then $B = (b_1, b_2 ... b_n)$</li>
 <li>Release $B$ as the public key weights</li>
 </ol>
-<p>Does this satisfy the first property we need? That it's impossible to recover $w_i$ from $b_i$? We see that the answer is yes, since both the modulo $q$ and coefficient $r$ are unknown.</p>
-<p>Does this set give us an easy way to convert a subset sum problem on $B$ to one on $W$? Yes! An instance of the subset sum problem is just the target sum $T$ and the set.</p>
+<p>Does this satisfy the first property we need (that it's impossible to recover $w_i$ from $b_i$)? We see that the answer is yes, since both the modulo $q$ and coefficient $r$ are unknown.</p>
+<p>Does this set give us an easy way to convert a subset sum problem on $B$ to one on $W$? Yes!</p>
 <p>First, define encryption of a sequence of bits $M = (m_1, m_2 \ldots m_n)$ as $c = \sum_i^n b_i m_i$.</p>
 <p>To convert this to a sum over the weights $W$ we can compute the following</p>
 <ol>
-<li>Compute $r' = r^{-1} (mod q)$ using the Extended Euclidean algorithm. Since we chose $r$ to be coprime to $q$, this inverse must exist</li>
-<li>Compute $c' = c r' (mod q)$, we see that 
+<li>Compute $r' = r^{-1} \mod q$ using the Extended Euclidean algorithm. Since we chose $r$ to be coprime to $q$, this inverse must exist</li>
+<li>Compute $c' = c r' \mod q$, we see that 
 $\begin{align}
-c' &amp;= r' c (mod q) \\
+c' &amp;= r' c \mod q \\
 &amp;= r^{-1} \sum_i^n m_i b_i \\
 &amp;= r^{-1} \sum_i^n m_i r w_i \\
 &amp;= \sum_i^n m_i w_i
@@ -14336,10 +14336,15 @@ c' &amp;= r' c (mod q) \\
 <p>So we have our subset sum problem over $W$ as desired, and we can solve this efficiently using the aforementioned greedy algorithm. The chosen integers correspond with the bits of the message $m_i = 1$, so by setting the rest of the bits to be $0$ we can recover the entire message.</p>
 
 </div>
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h2 id="Implementation">Implementation<a class="anchor-link" href="#Implementation">&#182;</a></h2>
+</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[1]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[2]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">random</span>
@@ -14354,10 +14359,16 @@ c' &amp;= r' c (mod q) \\
 </div>
 </div>
 
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>For our private key we need a superincreasing set of weights</p>
+
+</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[2]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[3]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Decide on a private key, a superincreasing set of weights</span>
@@ -14377,13 +14388,19 @@ c' &amp;= r' c (mod q) \\
 </div>
 </div>
 
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Generate the public weights using the superincreasing weights using the described method</p>
+
+</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[3]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[4]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Generate the public key from those weights</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Generate the public key from superincreasing weights</span>
 <span class="k">def</span> <span class="nf">make_pubkey_from</span><span class="p">(</span><span class="n">W</span><span class="p">):</span>
     <span class="n">total</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">W</span><span class="p">)</span>
     <span class="n">q</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">total</span><span class="p">,</span> <span class="n">total</span> <span class="o">+</span> <span class="mi">10</span><span class="p">)</span>
@@ -14401,17 +14418,23 @@ c' &amp;= r' c (mod q) \\
 </div>
 </div>
 
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Encryption is done by summing the weights corresponding to the 1 bits in the message</p>
+
+</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[4]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[5]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Encrypt a message using the public key</span>
 <span class="c1"># Assume message is a sequence of bytes</span>
 <span class="k">def</span> <span class="nf">encrypt</span><span class="p">(</span><span class="n">pubkey</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
     <span class="n">hex_msg</span> <span class="o">=</span> <span class="n">message</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span>
-    <span class="n">bits</span> <span class="o">=</span> <span class="nb">bin</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">hex_msg</span><span class="p">,</span> <span class="n">base</span><span class="o">=</span><span class="mi">16</span><span class="p">))</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s1">&#39;0b&#39;</span><span class="p">)</span> <span class="c1"># from stackoverflow</span>
+    <span class="n">bits</span> <span class="o">=</span> <span class="nb">bin</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">hex_msg</span><span class="p">,</span> <span class="n">base</span><span class="o">=</span><span class="mi">16</span><span class="p">))</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s1">&#39;0b&#39;</span><span class="p">)</span>
     <span class="n">padded</span> <span class="o">=</span> <span class="s2">&quot;0&quot;</span> <span class="o">*</span> <span class="p">(</span><span class="mi">8</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">message</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">bits</span><span class="p">))</span> <span class="o">+</span> <span class="n">bits</span> <span class="c1"># pad to the proper length</span>
     <span class="nb">sum</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">for</span> <span class="n">bit</span><span class="p">,</span><span class="n">weight</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">padded</span><span class="p">,</span> <span class="n">pubkey</span><span class="p">):</span>
@@ -14424,10 +14447,16 @@ c' &amp;= r' c (mod q) \\
 </div>
 </div>
 
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Decryption has two parts, the greedy solver for superincreasing weights and the conversion from $B$ to the superincreasing weights $W$</p>
+
+</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[5]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Decrypt the mesage using the private key</span>
@@ -14472,6 +14501,12 @@ c' &amp;= r' c (mod q) \\
 </div>
 </div>
 
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Finally, let's see if its possible to bruteforce the decryption using an integer programming solver like <code>linprog</code>. If this solver works then anyone would be able to decrypt messages</p>
+
+</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
@@ -14496,6 +14531,12 @@ c' &amp;= r' c (mod q) \\
 </div>
 </div>
 
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Let's test a short message first, 16 bits</p>
+
+</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
@@ -14586,6 +14627,13 @@ c' &amp;= r' c (mod q) \\
 
 </div>
 
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>We see that while the Merkle-Hellman scheme does correctly encrypt and decrypt the message, the <code>linprog</code> solver is also able to decrypt it without the private key.</p>
+<p>We know that the problem should scale exponentially though, what happens if we make the message much longer?</p>
+
+</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
@@ -14711,40 +14759,51 @@ decrypted message =  b&#39;MATH 441 is a project-based course which emphasizes m
 </div>
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Aha, <code>linprog</code> chokes because the integers are so large that it can't convert them to floating point numbers to do the linear relaxation based solving on. Without linear relaxation one can't do <a href="https://rctcwyvrn.github.io/math441-learning-portfolio/post/how_does_linprog_ip_work/">branch and bound</a>, making bruteforce the next best option.</p>
+<p>While this seems to indicate that this cryptosystem works, it turns out that it has a fatal flaw.</p>
+
+</div>
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h1 id="The-fatal-flaw:-Lattices-and-lattice-reductions">The fatal flaw: Lattices and lattice reductions<a class="anchor-link" href="#The-fatal-flaw:-Lattices-and-lattice-reductions">&#182;</a></h1><p>So why don't we use this cryptosystem today? Ignoring the issue of the massive key size, it turns out that there is a way of solving the subset sum problem $c$ without knowing anything besides the public key in polynomial time, rendering the entire system useless.</p>
 <p>How does it work?</p>
+<p>This article is already getting too long and explaining this carefully is very out of scope of 441 so allow me to give a brief explanation</p>
+<p>First a lattice is defined as the space spanned by linear combinations of vectors but with only integer coefficients.</p>
+<p>Consider the problem we'd like to solve, we want to find $ u \in \{0,1\}^n$ such that $T \cdot u = c$ for sum $c$ and weights $T$</p>
+<p>This problem is impossible to solve directly, but we can convert it into a matrix problem</p>
 <ul>
-<li>Lattice definition</li>
-<li>the knapsack can be changed to a dot product, t backpack, u message, C value, t dot u = c is what we want to solve, u = {0,1}^n</li>
-<li>impossible to solve directly, but we can convert it into a matrix problem<ul>
-<li>let V = [u1 ... un, 1]</li>
-<li>let W = [u1 ... un, 0]</li>
-<li>let M = [ identity_n  0
-<pre><code>      b_1 ... b_n -c]</code></pre>
-</li>
-<li>we want to find W</li>
+<li>let $V = [u_1, ... , u_n, 1]$</li>
+<li>let $W = [u_1, ... , u_n, 0]$</li>
+<li>let </li>
 </ul>
-</li>
-<li>All elements of V are either zero or one, so W is a lattice in the basis formed by the columns of M</li>
-<li>note that W appears to be a short vector, since all values are either one or zero</li>
-<li>hypothesize that W = a basis vector of M</li>
-<li>compute the LLL reduced basis of M</li>
-<li>check if any basis vectors are a valid solution (all zeroes and ones, then one zero) -&gt; if so then we have our solution</li>
-</ul>
+
+<pre><code>        M = [ identity_n  0
+              b_1 ... b_n -c]</code></pre>
+<p>We see that $MV = W$, and both $V$ and $W$ contain our desired solution $u$. But how can we solve for $W$?</p>
+<p>Looking at the elements of $V$ we see that all elements of V are either zero or one, so $W$ is a vector in the lattice formed by the columns of $M$</p>
+<p>Now looking at the values in $W$ we see that $W$ is a short vector, since all values are either one or zero</p>
+<p>The key guess that we make is that there exists another basis for this same lattice that has shorter basis vectors, and that one of these shorter basis vectors is equal to $W$. There exists an algorithm for doing this basis reduction called Lenstra–Lenstra–Lovász, aka LLL.</p>
+<p>So what we can do is perform LLL on the matrix $M$ and see if there is a basis vector that matches our expected shape for $W$ (all values being zero or one, last value being zero). If there is such a basis vector then we've found $W$ and thus decrypted the message.</p>
+<h2 id="Implementation">Implementation<a class="anchor-link" href="#Implementation">&#182;</a></h2><p>Now this has been shown to work well enough that the Merkle-Hellman system is considered broken, but I could not get it to work unfortunately. Something seems to be different about the implementation of LLL that I'm using because it gives a different result</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[11]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[29]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># lattice testing</span>
-<span class="n">W</span> <span class="o">=</span> <span class="n">superincreasing_sequence</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">W</span><span class="p">)</span>
-<span class="n">pubkey</span><span class="p">,</span> <span class="n">privkey</span> <span class="o">=</span> <span class="n">make_pubkey_from</span><span class="p">(</span><span class="n">W</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">pubkey</span><span class="p">,</span> <span class="n">privkey</span><span class="p">)</span>
-<span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;0111&quot;</span>
+<span class="c1"># example taken from http://www.cs.sjsu.edu/faculty/stamp/papers/topics/topic16/Knapsack.pdf</span>
+
+<span class="c1"># W = superincreasing_sequence(4)</span>
+<span class="n">W</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">57</span><span class="p">,</span> <span class="mi">120</span><span class="p">,</span> <span class="mi">251</span><span class="p">)</span>
+<span class="c1"># print(W)</span>
+<span class="c1"># pubkey, privkey = make_pubkey_from(W)</span>
+<span class="c1"># print(pubkey, privkey)</span>
+<span class="n">pubkey</span> <span class="o">=</span> <span class="p">(</span><span class="mi">82</span><span class="p">,</span> <span class="mi">123</span><span class="p">,</span> <span class="mi">287</span><span class="p">,</span> <span class="mi">83</span><span class="p">,</span> <span class="mi">248</span><span class="p">,</span> <span class="mi">373</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">471</span><span class="p">)</span>
+<span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;10010110&quot;</span>
 <span class="n">ciphertext</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="n">pubkey</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">if</span> <span class="n">b</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span> <span class="k">else</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">b</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">message</span><span class="p">)])</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">ciphertext</span><span class="p">)</span>
 </pre></div>
@@ -14766,9 +14825,7 @@ decrypted message =  b&#39;MATH 441 is a project-based course which emphasizes m
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>[7, 17, 30, 63]
-[43, 122, 114, 18] ([7, 17, 30, 63], 123, 94)
-254
+<pre>548
 </pre>
 </div>
 </div>
@@ -14780,22 +14837,23 @@ decrypted message =  b&#39;MATH 441 is a project-based course which emphasizes m
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[12]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[31]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># LLL solver, doesn&#39;t work :c</span>
-<span class="kn">import</span> <span class="nn">fpylll</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">fpylll</span>
 
 <span class="k">def</span> <span class="nf">lattice_solve</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
     <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">B</span><span class="p">)</span>
     <span class="n">M_top</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span><span class="p">,</span><span class="mi">1</span><span class="p">))])</span>
     <span class="n">M_bottom</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">B</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="n">c</span><span class="p">]])</span>
     <span class="n">M</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">M_top</span><span class="p">,</span> <span class="n">M_bottom</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">M</span><span class="p">)</span>
     <span class="n">M</span> <span class="o">=</span> <span class="n">fpylll</span><span class="o">.</span><span class="n">IntegerMatrix</span><span class="o">.</span><span class="n">from_matrix</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">M</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;doing LLL&quot;</span><span class="p">)</span>
     <span class="n">reduced</span> <span class="o">=</span> <span class="n">fpylll</span><span class="o">.</span><span class="n">LLL</span><span class="o">.</span><span class="n">reduction</span><span class="p">(</span><span class="n">M</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">reduced</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fpylll</span><span class="o">.</span><span class="n">LLL</span><span class="o">.</span><span class="n">is_reduced</span><span class="p">(</span><span class="n">reduced</span><span class="p">))</span>
 
 <span class="n">recovered_message</span> <span class="o">=</span> <span class="n">lattice_solve</span><span class="p">(</span><span class="n">pubkey</span><span class="p">,</span> <span class="n">ciphertext</span><span class="p">)</span>
 </pre></div>
@@ -14817,17 +14875,35 @@ decrypted message =  b&#39;MATH 441 is a project-based course which emphasizes m
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>[  1   0   0  0    0 ]
-[  0   1   0  0    0 ]
-[  0   0   1  0    0 ]
-[  0   0   0  1    0 ]
-[ 43 122 114 18 -254 ]
+<pre>[[   1.    0.    0.    0.    0.    0.    0.    0.    0.]
+ [   0.    1.    0.    0.    0.    0.    0.    0.    0.]
+ [   0.    0.    1.    0.    0.    0.    0.    0.    0.]
+ [   0.    0.    0.    1.    0.    0.    0.    0.    0.]
+ [   0.    0.    0.    0.    1.    0.    0.    0.    0.]
+ [   0.    0.    0.    0.    0.    1.    0.    0.    0.]
+ [   0.    0.    0.    0.    0.    0.    1.    0.    0.]
+ [   0.    0.    0.    0.    0.    0.    0.    1.    0.]
+ [  82.  123.  287.   83.  248.  373.   10.  471. -548.]]
+[  1   0   0  0   0   0  0   0    0 ]
+[  0   1   0  0   0   0  0   0    0 ]
+[  0   0   1  0   0   0  0   0    0 ]
+[  0   0   0  1   0   0  0   0    0 ]
+[  0   0   0  0   1   0  0   0    0 ]
+[  0   0   0  0   0   1  0   0    0 ]
+[  0   0   0  0   0   0  1   0    0 ]
+[  0   0   0  0   0   0  0   1    0 ]
+[ 82 123 287 83 248 373 10 471 -548 ]
 doing LLL
-[ 1 0 0 0    0 ]
-[ 0 1 0 0    0 ]
-[ 0 0 1 0    0 ]
-[ 0 0 0 1    0 ]
-[ 0 0 0 0 -254 ]
+[ 1 0 0 0 0 0 0 0    0 ]
+[ 0 1 0 0 0 0 0 0    0 ]
+[ 0 0 1 0 0 0 0 0    0 ]
+[ 0 0 0 1 0 0 0 0    0 ]
+[ 0 0 0 0 1 0 0 0    0 ]
+[ 0 0 0 0 0 1 0 0    0 ]
+[ 0 0 0 0 0 0 1 0    0 ]
+[ 0 0 0 0 0 0 0 1    0 ]
+[ 0 0 0 0 0 0 0 0 -548 ]
+True
 </pre>
 </div>
 </div>
