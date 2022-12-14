@@ -31,7 +31,7 @@ Why?
 
 ## Why is register allocation hard?
 
-Most people have heard of the [halting problem](https://en.wikipedia.org/wiki/Halting_problem), which is a problem proven by Alan Turing in 1986 to be impossible to write a program to solve. Not just slow, but impossible to write if you want it to be correct and stop on all inputs.
+Many people have heard of the [halting problem](https://en.wikipedia.org/wiki/Halting_problem), which is a problem proven by Alan Turing in 1986 to be impossible to write a program to solve. Not just slow, but impossible to write if you want it to be correct and stop on all inputs.
 
 A lesser known fact is that the halting problem is in fact a special case of [Rice's theorem](https://en.wikipedia.org/wiki/Rice%27s_theorem), which states that _all non-trivial semantic properties of a program are undecidable_, meaning you cannot write a program (or more generally, a Turing machine) that can produce the right result and always halt. Rice's theorem is a massive buzzkill in general because it means that anything cool our compilers want to do is actually _impossible_ to do optimally for all programs. Sucks.
 
@@ -48,7 +48,7 @@ So this then results in a set of nodes and a set of conflict edges, which we can
 
 Our first instict is probably to use a greedy algorithm like largest first, but it turns out that this is actually too slow! Our register allocator will need to assign many many locations so even the sort is too costly for the compiler. So what do we do?
 
-In many other [real world compilers](https://gcc.gnu.org/wiki/RegisterAllocation) use a different heuristic for choosing which nodes to color first, one that only takes linear time. The [idea](https://dl.acm.org/doi/pdf/10.1145/872726.806984) is based on the fact that if you have 32 colors and a node that has less than 32 neighbors, then as long as you can color everything else, you must be able to color that node. Now this is always true, but it fails to hold if we repeat this process and remove more and more nodes. However this still gives a good heuristic on which nodes should be able to be colored last, so instead of doing an expensive sort what we can do is just repeatedly remove nodes that have fewer than _k_ edges and color those last 
+In many other [real world compilers](https://gcc.gnu.org/wiki/RegisterAllocation) use a different heuristic for choosing which nodes to color first, one that only takes linear time. The idea [^1] is based on the fact that if you have 32 colors and a node that has less than 32 neighbors, then as long as you can color everything else, you must be able to color that node. Now this is always true, but it fails to hold if we repeat this process and remove more and more nodes. However this still gives a good heuristic on which nodes should be able to be colored last, so instead of doing an expensive sort what we can do is just repeatedly remove nodes that have fewer than _k_ edges and color those last 
 
 This gives us the algorithm
 1. Remove a node that has fewer than k edges
@@ -62,10 +62,15 @@ This general strategy first described by Chaitin is generally quite successful a
 
 In the last section we discussed a graph coloring algorithm that runs in linear time by not having to sort the nodes, which you have to do for strategies like largest first. This raises the question though, how much does this focus on speed affect the resulting register allocation?
 
-[This paper](https://apps.dtic.mil/sti/pdfs/ADA456095.pdf) customizes the `gcc` allocator to instead use an ILP and [an optimizer](https://www.ibm.com/analytics/cplex-optimizer) to solve the graph coloring problem the register allocator generates to see the differences in compiler runtime and produced binary runtime, and surprisingly it found that the coloring heuristic is in fact 99.9% able to color as well as the ILP version despite being much faster to run. 
+This paper [^2] customizes the `gcc` allocator to instead use an ILP and [an optimizer](https://www.ibm.com/analytics/cplex-optimizer) to solve the graph coloring problem the register allocator generates to see the differences in compiler runtime and produced binary runtime, and surprisingly it found that the coloring heuristic is in fact able to color 99.9% as well as the ILP version despite being much faster to run. 
 
 In fact if the ILP is unable to consider additional properties of the register allocation problem (ie: more information from other analysis passes), the resulting ILP allocation is actually worse in many cases! Even with some of those addtional aspects added onto the ILP, the optimal coloring doesn't always beat the heuristic based coloring, for example in cases where the heuristic based allocator is able to correctly assign a register to an "ideal register" at the cost of causing many spills, knowing that this "ideal register" would be so good for performance that the additional spills don't matter. The ILP is unable to incorporate this and thus loses in some programs! 
 
 The key observation that this paper makes is that this heuristic based allocator and it's implementations in modern compilers have the benefit of being highly customizable to the register allocation problem and the specific details of it, while the ILP version is "just" a graph coloring with some of the extra details tacked on, so the benefit of a slightly more optimal coloring is lost in the inability to consider real world details. 
 
 It's interesting to see how what we learn in class might seem like it would be "optimal", but once it reaches the real world and its actual applications of these problems we might see that these algorithms can be beat by much simpler, purpose built algorithms like this register allocation heuristic.
+
+
+[^1]: G. J. Chaitin, ‘Register allocation & spilling via graph coloring’, [Online]. Available: https://dl.acm.org/doi/pdf/10.1145/872726.806984
+
+[^2]: D. Koes and S. C. Goldstein, ‘An Analysis of Graph Coloring Register Allocation’, [Online]. Available: https://apps.dtic.mil/sti/pdfs/ADA456095.pdf

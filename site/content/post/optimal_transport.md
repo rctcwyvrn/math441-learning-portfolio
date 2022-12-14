@@ -131,8 +131,8 @@ That wraps up my whirlwind tour of optimal transport, I hope you learned somethi
 
 [^1]: https://kantorovich.org/post/ot_intro/ 
 [^2]: https://towardsdatascience.com/optimal-transport-a-hidden-gem-that-empowers-todays-machine-learning-2609bbf67e59 
-[^3]: https://arxiv.org/pdf/1809.00013.pdf
+[^3]: D. Alvarez-Melis and T. S. Jaakkola, ‘Gromov-Wasserstein Alignment of Word Embedding Spaces’. arXiv, Aug. 31, 2018. Accessed: Dec. 13, 2022. [Online]. Available: http://arxiv.org/abs/1809.00013
 [^4]: https://en.wikipedia.org/wiki/Word2vec
-[^5]: https://www.jmlr.org/papers/volume22/20-451/20-451.pdf 
+[^5]: R. Flamary et al., ‘POT: Python Optimal Transport’, [Online]. Available: https://www.jmlr.org/papers/volume22/20-451/20-451.pdf
 [^6]: https://pythonot.github.io/quickstart.html#optimal-transport-and-wasserstein-distance
 [^7]: https://en.wikipedia.org/wiki/Network_simplex_algorithm
