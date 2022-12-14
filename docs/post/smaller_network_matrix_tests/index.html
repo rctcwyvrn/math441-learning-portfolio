@@ -113,7 +113,7 @@ Recall that during lecture we did our optimization with a $n^2 - n$ sized vector
 During class we modelled network flows using a $ n^2-n $ sized matrix and naturally the question I had was, is it more efficient to just have a $ mxn $ sized matrix?
 Recall that during lecture we did our optimization with a $n^2 - n$ sized vector $x$ which was a flattened representation of $x$ as a matrix where each $x_{i,j}$ represented the flow between nodes $i$ and $j$.">
 
-<meta itemprop="wordCount" content="2586">
+<meta itemprop="wordCount" content="2585">
 <meta itemprop="keywords" content="" />
   
   <meta name="twitter:card" content="summary"/>
@@ -14736,8 +14736,8 @@ a.anchor-link {
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
 <pre>9
-[7, 10, 6, 9, 4, 3, 5, 8]
-[[ 7. 10.  6.  9.  4.  3.  5.  8.]
+[2, 6, 2, 6, 1, 10, 5, 7]
+[[ 2.  6.  2.  6.  1. 10.  5.  7.]
  [ 1.  1.  1.  1.  1.  1.  1.  1.]
  [ 1.  1.  1.  1.  1.  1.  1.  1.]
  [ 1.  1.  1.  1.  1.  1.  1.  1.]
@@ -14747,8 +14747,8 @@ a.anchor-link {
  [ 1.  1.  1.  1.  1.  1.  1.  1.]
  [ 1.  1.  1.  1.  1.  1.  1.  1.]]
 [(0, 1), (1, 8), (1, 2), (0, 2), (2, 1), (2, 3), (0, 3), (3, 2), (3, 4), (0, 4), (4, 3), (4, 5), (0, 5), (5, 4), (5, 6), (0, 6), (6, 5), (6, 7), (0, 7), (7, 6), (7, 8), (0, 8), (8, 7), (8, 1)]
-[ 7.  1.  1. 10.  1.  1.  6.  1.  1.  9.  1.  1.  4.  1.  1.  3.  1.  1.
-  5.  1.  1.  8.  1.  1.]
+[ 2.  1.  1.  6.  1.  1.  2.  1.  1.  6.  1.  1.  1.  1.  1. 10.  1.  1.
+  5.  1.  1.  7.  1.  1.]
 </pre>
 </div>
 </div>
@@ -15021,14 +15021,14 @@ a.anchor-link {
 
 
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>array([[ 1.5,  0. ,  1.5,  0. ,  1.5,  1.5,  1.5,  0.5],
-       [ 0. ,  0.5,  0. ,  0. ,  0. ,  0. ,  0. ,  0. ],
+<pre>array([[ 1.5,  1. ,  1.5,  0.5,  1.5,  0. ,  1.5,  0.5],
+       [ 0. ,  0. ,  0. ,  0. ,  0. , -0. ,  0. ,  0.5],
+       [ 0. ,  0. ,  0. ,  0. ,  0. , -0. ,  0. ,  0. ],
+       [ 0. ,  0. ,  0. ,  0.5, -0. , -0. , -0. , -0. ],
+       [ 0. ,  0. ,  0. ,  0. ,  0. , -0. ,  0. ,  0. ],
+       [ 0. ,  0. ,  0. ,  0. ,  0. ,  0.5,  0. ,  0. ],
        [ 0. ,  0. ,  0. ,  0. ,  0. ,  0. ,  0. ,  0. ],
-       [ 0. ,  0. ,  0.5, -0. ,  0. ,  0. ,  0. ,  0. ],
-       [ 0. ,  0. ,  0. ,  0. ,  0. ,  0. ,  0. ,  0. ],
-       [ 0. ,  0. ,  0. ,  0. ,  1. ,  0. ,  0. ,  0. ],
-       [ 0. ,  0. , -0. ,  0. , -0. ,  0.5, -0. ,  0. ],
-       [ 0. ,  0. ,  0. ,  0. ,  0. ,  0. ,  0. ,  0. ],
+       [ 0. ,  0. ,  0. ,  0. ,  0. ,  0. ,  0.5,  0. ],
        [ 0. ,  0. ,  0. ,  0. ,  0. ,  0. ,  0. ,  0. ]])</pre>
 </div>
 
@@ -15073,27 +15073,27 @@ a.anchor-link {
 
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
 <pre>[(1.5, (0, 1)),
- (0.0, (1, 8)),
- (0.5, (1, 2)),
- (0.0, (0, 2)),
+ (0.5, (1, 8)),
+ (0.0, (1, 2)),
+ (1.0, (0, 2)),
  (0.0, (2, 1)),
  (0.0, (2, 3)),
  (1.5, (0, 3)),
- (0.5, (3, 2)),
- (0.0, (3, 4)),
+ (0.0, (3, 2)),
+ (0.5, (3, 4)),
  (0.5, (0, 4)),
  (0.0, (4, 3)),
  (0.0, (4, 5)),
  (1.5, (0, 5)),
- (0.5, (5, 4)),
- (0.0, (5, 6)),
- (1.5, (0, 6)),
+ (0.0, (5, 4)),
+ (0.5, (5, 6)),
+ (0.0, (0, 6)),
  (0.0, (6, 5)),
- (0.5, (6, 7)),
+ (0.0, (6, 7)),
  (1.5, (0, 7)),
- (0.0, (7, 6)),
+ (0.5, (7, 6)),
  (0.0, (7, 8)),
- (-0.0, (0, 8)),
+ (0.5, (0, 8)),
  (0.0, (8, 7)),
  (0.0, (8, 1))]</pre>
 </div>
@@ -15178,7 +15178,7 @@ a.anchor-link {
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[16]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[33]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">n</span> <span class="o">=</span> <span class="mi">16</span>
@@ -15205,7 +15205,7 @@ a.anchor-link {
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>False
+<pre>True
 </pre>
 </div>
 </div>
@@ -15224,7 +15224,7 @@ a.anchor-link {
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[17]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[34]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
@@ -15259,65 +15259,65 @@ a.anchor-link {
 <pre>-----
 n = 8
 big matrix:
-1.5 ms ± 96.3 µs per loop (mean ± std. dev. of 7 runs, 1000 loops each)
+1.54 ms ± 80.8 µs per loop (mean ± std. dev. of 7 runs, 1000 loops each)
 edges only:
-1.01 ms ± 7.98 µs per loop (mean ± std. dev. of 7 runs, 1000 loops each)
+1.04 ms ± 12.3 µs per loop (mean ± std. dev. of 7 runs, 1000 loops each)
 -----
 -----
 n = 16
 big matrix:
-3 ms ± 26.5 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
+3.16 ms ± 132 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
 edges only:
-1.3 ms ± 44.5 µs per loop (mean ± std. dev. of 7 runs, 1000 loops each)
+1.49 ms ± 97.7 µs per loop (mean ± std. dev. of 7 runs, 1000 loops each)
 -----
 -----
 n = 24
 big matrix:
-7.39 ms ± 44.3 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
+7.68 ms ± 151 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
 edges only:
-1.66 ms ± 40.6 µs per loop (mean ± std. dev. of 7 runs, 1000 loops each)
+1.69 ms ± 34.2 µs per loop (mean ± std. dev. of 7 runs, 1000 loops each)
 -----
 -----
 n = 32
 big matrix:
-20 ms ± 681 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
+16.8 ms ± 76.9 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
 edges only:
-2.12 ms ± 27.4 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
+2.29 ms ± 165 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
 -----
 -----
 n = 40
 big matrix:
-34.3 ms ± 272 µs per loop (mean ± std. dev. of 7 runs, 10 loops each)
+41.4 ms ± 1.11 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
 edges only:
-2.59 ms ± 68.2 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
+2.62 ms ± 32.7 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
 -----
 -----
 n = 48
 big matrix:
-72.9 ms ± 1.99 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
+71.8 ms ± 2.23 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
 edges only:
-3.28 ms ± 35.6 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
+3.3 ms ± 129 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
 -----
 -----
 n = 56
 big matrix:
-126 ms ± 4.48 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
+130 ms ± 6.62 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
 edges only:
-3.95 ms ± 134 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
+4.09 ms ± 162 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
 -----
 -----
 n = 64
 big matrix:
-199 ms ± 2.45 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)
+224 ms ± 12.3 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)
 edges only:
-4.84 ms ± 112 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
+4.92 ms ± 158 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
 -----
 -----
 n = 72
 big matrix:
-317 ms ± 24.9 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)
+314 ms ± 4.4 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)
 edges only:
-5.73 ms ± 241 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
+5.87 ms ± 304 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
 -----
 </pre>
 </div>

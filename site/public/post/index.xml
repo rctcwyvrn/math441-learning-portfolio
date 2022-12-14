@@ -78,7 +78,7 @@ Why? While looking at these graph coloring methods in classs I found that being 
       
       <guid>https://rctcwyvrn.github.io/math441-learning-portfolio/post/cryptography_and_lattices/</guid>
       <description>&lt;!DOCTYPE html&gt; cryptography_and_lattices The source code for this entry can be found at https://github.com/rctcwyvrn/math441-learning-portfolio/blob/master/cryptography_and_lattices.ipynb
-In 1976 Whitfield Diffie and Martin Hellman developed what would become a key concept in modern telecommunications, the public key cryptosystem. In a paper titled &#34;New directions in cryptography&#34; https://ee.stanford.edu/~hellman/publications/24.pdf they developed the first public key exchange and theorized what would eventually become public key cryptography but with one key part missing. Diffie and Hellman built their model for a public key cryptosystem with a theoretical &#34;</description>
+In 1976 Whitfield Diffie and Martin Hellman developed what would become a key concept in modern telecommunications, the public key cryptosystem. In a paper titled &#34;New directions in cryptography&#34; [1] they developed the first public key exchange and theorized what would eventually become public key cryptography but with one key part missing. Diffie and Hellman built their model for a public key cryptosystem with a theoretical &#34;</description>
     </item>
     
     <item>
